@@ -1,10 +1,10 @@
 const root_path = process.cwd()
 
-const Manage = require(root_path + '/manage/manage.js')
-const Router = require('koa-router')
+const manage = require(root_path + '/manage/manage.js')
+const router = require('koa-router')
 
-const ChildRouter = new Router()
+const child_router = new router()
 
-ChildRouter.post('/login', Manage.Login)
+child_router.post('/login', manage.Login)
 
-module.exports = ChildRouter
+module.exports = child_router

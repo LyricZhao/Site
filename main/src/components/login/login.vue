@@ -19,8 +19,9 @@
 </style>
 
 <script>
-
+/* eslint-disable */
 import ServiceAddress from '@/settings/address.js'
+import sha1 from 'sha1'
 
 export default {
     data() {
@@ -37,7 +38,7 @@ export default {
             } else {
                 let data = {
                     'username': this.username,
-                    'password': this.password
+                    'password': sha1(this.password)
                 }
                 this.$http.post(ServiceAddress.login_api, data).then((res) => {
                     console.log(res)

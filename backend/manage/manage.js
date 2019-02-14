@@ -1,11 +1,15 @@
 const root_path = process.cwd()
 
-const Logger = require(root_path + '/logger/logger.js')
+const db = require(root_path + '/database/mongo.js')
+const logger = require(root_path + '/logger/logger.js')
 
 const Login = async (ctx) => {
-    let username = ctx.request.body.username
-    let password = ctx.request.body.password
-    Logger.Debug('Login: ' + username + ': ' + password)
+    let user = {
+        username: ctx.request.body.username,
+        password: ctx.request.body.password
+    }
+    let doc = await db.find_one(user)
+    ctx.body = {info: doc ? 0 : 1}
     ctx.status = 200
 }
 
