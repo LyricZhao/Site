@@ -11,7 +11,13 @@ const user_schema = {
     level: Number
 }
 
+const text_schema = {
+    date: String,
+    username: String,
+    context: String,
+    is_private: Boolean
+}
+
 module.exports = {
-    level_enum: level_enum,
-    user_schema: user_schema
+    level_enum, user_schema, text_schema
 }

@@ -1,16 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import vue from 'vue'
+import router from 'vue-router'
 
-import Login from '@/components/login/login.vue'
+import login from '@/components/login.vue'
+import create from '@/components/create.vue'
+import say from '@/components/say.vue'
 
-Vue.use(Router)
+vue.use(router)
 
-export default new Router({
+export default new router({
     routes: [
         /* Login */ {
-            path: '/', // DEBUG
-            name: 'Login',
-            component: Login
+            path: '/login',
+            name: 'login',
+            component: login
+        },
+        /* Create */ {
+            path: '/create',
+            name: 'create',
+            component: create
+        },
+        /* Say */ {
+            path: '/say',
+            name: 'say',
+            component: say
         }
     ]
 })

@@ -24,6 +24,7 @@ const admin = {
 module.exports = {
     admin: admin,
     connect: connect_options,
+    create_admin: true,
     drop_when_start: true,
     url: 'mongodb://localhost'
 }

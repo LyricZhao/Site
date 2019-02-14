@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="login-wrap">
-            <h3> Login </h3>
-            <input type="text" placeholder="Username" v-model="username">
-            <input type="password" placeholder="Password" v-model="password">
-            <button v-on:click="Login"> Login </button>
+            <h3> 登录 </h3>
+            <input type="text" placeholder="用户名" v-model="username">
+            <input type="password" placeholder="密码" v-model="password">
+            <button v-on:click="Login"> 登录 </button>
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
     .login-wrap{text-align:center;}
     input{display: block; width: 250px; height: 40px; line-height: 40px; margin: 0 auto; margin-bottom: 10px; outline: none; border: 1px solid #888; padding: 10px; box-sizing: border-box;}
     p{color: red;}
@@ -34,15 +34,13 @@ export default {
     methods: {
         Login() {
             if(this.username === '' || this.password === '') {
-                alert('Please input your username and password.')
+                alert('请好好填写！')
             } else {
                 let data = {
-                    'username': this.username,
-                    'password': sha1(this.password)
+                    username: this.username,
+                    password: sha1(this.password)
                 }
-                this.$http.post(ServiceAddress.login_api, data).then((res) => {
-                    console.log(res)
-                })
+                this.$http.post(ServiceAddress.login_api, data).then((res) => {})
             }
         }
     }
