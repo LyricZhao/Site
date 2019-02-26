@@ -10,10 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "koa": "^2.7.0",
+    "koa-body": "^4.0.8",
     "koa-bodyparser": "^4.2.1",
     "koa-cors": "0.0.16",
+    "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
+    "koa2-static": "^1.0.1",
     "mongoose": "^5.4.10",
     "sha1": "^1.1.1"
   }

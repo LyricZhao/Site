@@ -1,6 +1,7 @@
 const root_path = process.cwd()
 
 const db = require(root_path + '/database/mongo.js')
+const fs = require('fs')
 const logger = require(root_path + '/logger/logger.js')
 const settings = require(root_path + '/settings/server.js')
 
@@ -45,6 +46,21 @@ const Say = async (ctx) => {
     ctx.status = 200
 }
 
+const GrabFile = (ctx, path = '') => {
+    console.log(ctx.req.file)
+}
+
+const UploadBackground = async (ctx) => {
+}
+
+const UploadFile = async (ctx) => {
+}
+
+const UploadProfile = async (ctx) => {
+    console.log(ctx.req.file)
+}
+
 module.exports = {
-    Login, CreateAccount, Say
+    Login, CreateAccount, Say,
+    UploadBackground, UploadFile, UploadProfile
 }
