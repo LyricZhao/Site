@@ -10,9 +10,11 @@ const model = require(root_path + '/database/model.js')
 var loaded = false
 var user_db, user_model
 var text_db, text_model
+var file_db, file_model
 mongoose.Promise = global.Promise
 const user_schema = new mongoose.Schema(model.user_schema)
 const text_schema = new mongoose.Schema(model.text_schema)
+const file_schema = new mongoose.Schema(model.file_schema)
 
 const save_doc = (info) => {
     let doc = new user_model(info)
@@ -25,6 +27,13 @@ const save_text = (text) => {
     let doc = new text_model(text)
     doc.save((err, res) => {
         if(err) logger.Error(err, 'mongo.js: save_txt')
+    })
+}
+
+const save_file = (file) => {
+    let doc = new file_model(file)
+    doc.save((err, res) => {
+        if(err) logger.Error(err, 'mongo.js: save_file')
     })
 }
 
@@ -57,6 +66,16 @@ const find_text_user = async (username, sort_by_date = true, find_private = fals
     })
 }
 
+const find_file_user = async (username) => {
+    let user = {username: username}
+    return new Promise((resolve, reject) => {
+        file_model.find(user, (err, obj) => {
+            if(err) reject(err)
+            resolve(obj)
+        })
+    })
+}
+
 const on_user_db_connected = async () => {
     if(db_options.drop_when_start) {
         logger.Info('Database (user) dropped.', 'mongo.js: on_user_db_connected')
@@ -78,10 +97,20 @@ const on_text_db_connected = async () => {
     logger.Info('Database (text) connected.', 'mongo.js: on_text_db_connected')
 }
 
+const on_file_db_connected = async () => {
+    if(db_options.drop_when_start) {
+        logger.Info('Database (file) dropped.', 'mongo.js: on_file_db_connected')
+        file_db.dropDatabase()
+    }
+    file_model = file_db.model('file', file_schema)
+    logger.Info('Database (file) connected.', 'mongo.js: on_file_db_connected')
+}
+
 const close = () => {
     logger.Info('Database connection closed', 'mongo.js: close_db')
     user_db.close()
     text_db.close()
+    file_db.close()
     mongoose.connection.close()
 }
 
@@ -91,8 +120,10 @@ const load = () => {
     logger.Info('Trying to connect to database ...', 'mongo.js: load_db')
     user_db = mongoose.createConnection(db_options.url + '/user', db_options.connect)
     text_db = mongoose.createConnection(db_options.url + '/text', db_options.connect)
+    file_db = mongoose.createConnection(db_options.url + '/file', db_options.connect)
     user_db.on('open', on_user_db_connected)
     text_db.on('open', on_text_db_connected)
+    file_db.on('open', on_file_db_connected)
     user_db.on('error', () => {
         logger.Error('Error when connecting to database (user).', 'mongo.js: load_db')
         process.exit(0)
@@ -101,11 +132,15 @@ const load = () => {
         logger.Error('Error when connecting to database (text).', 'mongo.js: load_db')
         process.exit(0)
     })
+    file_db.on('error', () => {
+        logger.Error('Error when connecting to database (file).', 'mongo.js: load_db')
+    })
 }
 
 module.exports = {
     load, close,
     save_doc, save_text,
     find_one_user, find_all_user,
-    find_text_user
+    find_text_user,
+    find_file_user
 }
