@@ -5,11 +5,7 @@ const jwt = require('jsonwebtoken')
 const logger = require(root_path + '/logger/logger.js')
 
 var createToken = (user_id) => {
-    const token = jwt.sign({
-        user_id: user_id
-    }, 'lyricz', {
-        expiresIn: '60s'
-    })
+    const token = jwt.sign({user_id: user_id}, 'lyricz', {expiresIn: '60s'})
     return token
 }
 
@@ -21,18 +17,18 @@ var checkToken = async (ctx, callback) => {
         username = ctx.req.username
     }
     if(ctx.request.header['authorization'] && username) {
-        let doc = await db.find_one_user({
+        let doc = await db.findOneUser({
             username: username,
             token: ctx.request.header['authorization']
         })
         if(doc) {
             callback()
         } else {
-            logger.Info('Invalid token detected', 'token.js: checkToken')            
+            logger.info('Invalid token detected', 'token.js: checkToken')            
             ctx.status = 401
         }
     } else {
-        logger.Info('No token or username detected', 'token.js: checkToken')
+        logger.info('No token or username detected', 'token.js: checkToken')
         ctx.status = 401
     }
 }

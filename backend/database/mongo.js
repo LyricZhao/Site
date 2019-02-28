@@ -16,28 +16,28 @@ const user_schema = new mongoose.Schema(model.user_schema)
 const text_schema = new mongoose.Schema(model.text_schema)
 const file_schema = new mongoose.Schema(model.file_schema)
 
-const save_doc = (info) => {
+const saveDoc = (info) => {
     let doc = new user_model(info)
     doc.save((err, res) => {
-        if(err) logger.Error(err, 'mongo.js: save_doc')
+        if(err) logger.error(err, 'mongo.js: saveDoc')
     })
 }
 
-const save_text = (text) => {
+const saveText = (text) => {
     let doc = new text_model(text)
     doc.save((err, res) => {
-        if(err) logger.Error(err, 'mongo.js: save_txt')
+        if(err) logger.error(err, 'mongo.js: saveText')
     })
 }
 
-const save_file = (file) => {
+const saveFile = (file) => {
     let doc = new file_model(file)
     doc.save((err, res) => {
-        if(err) logger.Error(err, 'mongo.js: save_file')
+        if(err) logger.error(err, 'mongo.js: saveFile')
     })
 }
 
-const find_one_user = async (requirement) => {
+const findOneUser = async (requirement) => {
     return new Promise((resolve, reject) => {
         user_model.findOne(requirement, (err, doc) => {
             if(err) reject(err)
@@ -46,7 +46,7 @@ const find_one_user = async (requirement) => {
     })
 }
 
-const find_all_user = async (requirement) => {
+const findAllUser = async (requirement) => {
     return new Promise((resolve, reject) => {
         user_model.find(requirement, (err, doc) => {
             if(err) reject(err)
@@ -55,7 +55,7 @@ const find_all_user = async (requirement) => {
     })
 }
 
-const find_text_user = async (username, sort_by_date = true, find_private = false) => {
+const findTextUser = async (username, sort_by_date = true, find_private = false) => {
     let user = {username: username}
     if(find_private) user.is_private = false
     return new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ const find_text_user = async (username, sort_by_date = true, find_private = fals
     })
 }
 
-const find_file_user = async (username) => {
+const findFileUser = async (username) => {
     let user = {username: username}
     return new Promise((resolve, reject) => {
         file_model.find(user, (err, obj) => {
@@ -76,38 +76,38 @@ const find_file_user = async (username) => {
     })
 }
 
-const on_user_db_connected = async () => {
+const onUserDbConnected = async () => {
     if(db_options.drop_when_start) {
-        logger.Info('Database (user) dropped.', 'mongo.js: on_user_db_connected')
+        logger.info('Database (user) dropped.', 'mongo.js: onUserDbConnected')
         user_db.dropDatabase()
     }
     user_model = user_db.model('user', user_schema)
-    logger.Info('Database (user) connected.', 'mongo.js: on_user_db_connected')
+    logger.info('Database (user) connected.', 'mongo.js: onUserDbConnected')
     if(db_options.create_admin) {
-        save_doc(db_options.admin)
+        saveDoc(db_options.admin)
     }
 }
 
-const on_text_db_connected = async () => {
+const onTextDbConnected = async () => {
     if(db_options.drop_when_start) {
-        logger.Info('Database (text) dropped.', 'mongo.js: on_text_db_connected')
+        logger.info('Database (text) dropped.', 'mongo.js: onTextDbConnected')
         text_db.dropDatabase()
     }
     text_model = text_db.model('text', text_schema)
-    logger.Info('Database (text) connected.', 'mongo.js: on_text_db_connected')
+    logger.info('Database (text) connected.', 'mongo.js: onTextDbConnected')
 }
 
-const on_file_db_connected = async () => {
+const onFileDbConnected = async () => {
     if(db_options.drop_when_start) {
-        logger.Info('Database (file) dropped.', 'mongo.js: on_file_db_connected')
+        logger.info('Database (file) dropped.', 'mongo.js: onFileDbConnected')
         file_db.dropDatabase()
     }
     file_model = file_db.model('file', file_schema)
-    logger.Info('Database (file) connected.', 'mongo.js: on_file_db_connected')
+    logger.info('Database (file) connected.', 'mongo.js: onFileDbConnected')
 }
 
 const close = () => {
-    logger.Info('Database connection closed', 'mongo.js: close_db')
+    logger.info('Database connection closed', 'mongo.js: close_db')
     user_db.close()
     text_db.close()
     file_db.close()
@@ -117,30 +117,30 @@ const close = () => {
 const load = () => {
     if(loaded) return
     loaded = true
-    logger.Info('Trying to connect to database ...', 'mongo.js: load_db')
+    logger.info('Trying to connect to database ...', 'mongo.js: load')
     user_db = mongoose.createConnection(db_options.url + '/user', db_options.connect)
     text_db = mongoose.createConnection(db_options.url + '/text', db_options.connect)
     file_db = mongoose.createConnection(db_options.url + '/file', db_options.connect)
-    user_db.on('open', on_user_db_connected)
-    text_db.on('open', on_text_db_connected)
-    file_db.on('open', on_file_db_connected)
+    user_db.on('open', onUserDbConnected)
+    text_db.on('open', onTextDbConnected)
+    file_db.on('open', onFileDbConnected)
     user_db.on('error', () => {
-        logger.Error('Error when connecting to database (user).', 'mongo.js: load_db')
+        logger.error('Error when connecting to database (user).', 'mongo.js: load')
         process.exit(0)
     })
     text_db.on('error', () => {
-        logger.Error('Error when connecting to database (text).', 'mongo.js: load_db')
+        logger.error('Error when connecting to database (text).', 'mongo.js: load')
         process.exit(0)
     })
     file_db.on('error', () => {
-        logger.Error('Error when connecting to database (file).', 'mongo.js: load_db')
+        logger.error('Error when connecting to database (file).', 'mongo.js: load')
     })
 }
 
 module.exports = {
     load, close,
-    save_doc, save_text,
-    find_one_user, find_all_user,
-    find_text_user,
-    find_file_user
+    saveDoc, saveText,
+    findOneUser, findAllUser,
+    findTextUser,
+    findFileUser
 }

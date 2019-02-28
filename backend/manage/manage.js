@@ -6,12 +6,12 @@ const logger = require(root_path + '/logger/logger.js')
 const settings = require(root_path + '/settings/server.js')
 const token = require(root_path + '/manage/token.js')
 
-const Login = async (ctx) => {
+const login = async (ctx) => {
     let user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     }
-    let doc = await db.find_one_user(user)
+    let doc = await db.findOneUser(user)
     if(doc) {
         doc.token = token.createToken(user.username)
         ctx.body = {
@@ -19,17 +19,17 @@ const Login = async (ctx) => {
             real_name: doc.real_name,
             token: doc.token
         }
-        db.save_doc(doc)
-        logger.Info('A successful login, username: ' + ctx.request.body.username, 'manage.js: Login')
+        doc.save()
+        logger.info('A successful login, username: ' + ctx.request.body.username, 'manage.js: Login')
     } else {
         ctx.body = {info: 1}
-        logger.Info('A failed login, username: ' + ctx.request.body.username, 'manage.js: Login')
+        logger.info('A failed login, username: ' + ctx.request.body.username, 'manage.js: Login')
     }
     ctx.status = 200
 }
 
 /* 0 for success, 1 for invaild password, 2 for duplicate */
-const CreateAccount = async (ctx) => {
+const createAccount = async (ctx) => {
     let user = {
         username: ctx.request.body.username,
         real_name: ctx.request.body.real_name,
@@ -40,44 +40,44 @@ const CreateAccount = async (ctx) => {
     let root_pass = ctx.request.body.root_pass
     ctx.body = {info: root_pass === settings.root_pass ? 0 : 1}
     if(!ctx.body.info) {
-        if(await db.find_one_user({username: user.username})) {
-            logger.Info('A failed creating account request, username duplicate: ' + user.username, 'manage.js: CreateAccount')
+        if(await db.findOneUser({username: user.username})) {
+            logger.info('A failed creating account request, username duplicate: ' + user.username, 'manage.js: CreateAccount')
             ctx.body.info = 2
         } else {
-            db.save_doc(user)
-            logger.Info('Successfully created account, username: ' + user.username + ', real name: ' + user.real_name + ', level: ' + String(user.level), 'manage.js: CreateAccount')
+            db.saveDoc(user)
+            logger.info('Successfully created account, username: ' + user.username + ', real name: ' + user.real_name + ', level: ' + String(user.level), 'manage.js: CreateAccount')
         }
     } else {
-        logger.Info('A failed creating account request with wrong root password.', 'manage.js: CreateAccount')
+        logger.info('A failed creating account request with wrong root password.', 'manage.js: CreateAccount')
     }
     ctx.status = 200
 }
 
-const Say = async (ctx) => {
+const say = async (ctx) => {
     let text = {
         date: (new Date()).toLocaleString(),
         username: ctx.request.body.username,
         context: ctx.request.body.text,
         is_private: ctx.request.body.is_private
     }
-    db.save_text(text)
+    db.saveText(text)
     ctx.status = 200
 }
 
-const GrabFile = (ctx, path = '') => {
+const grabFile = (ctx, path = '') => {
 }
 
-const UploadBackground = async (ctx) => {
+const uploadBackground = async (ctx) => {
 }
 
-const UploadFile = async (ctx) => {
+const uploadFile = async (ctx) => {
 }
 
-const UploadProfile = async (ctx) => {
+const uploadProfile = async (ctx) => {
 
 }
 
 module.exports = {
-    Login, CreateAccount, Say,
-    UploadBackground, UploadFile, UploadProfile
+    login, createAccount, say,
+    uploadBackground, uploadFile, uploadProfile
 }

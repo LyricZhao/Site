@@ -20,7 +20,7 @@ router.use('/api', routes.routes(), routes.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
 
 var server = app.listen(settings.port, () => {
-    logger.Info('Backend server successfully starts on port ' + settings.port + '.', 'server.js: server')
+    logger.info('Backend server successfully starts on port ' + settings.port + '.', 'server.js: server')
 })
 
 module.exports = server

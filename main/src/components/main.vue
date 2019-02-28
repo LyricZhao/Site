@@ -18,7 +18,7 @@ export default {
     data() {
         return {
             name: 'main',
-            current_component: login
+            current_component: create
         }
     },
     components: {
