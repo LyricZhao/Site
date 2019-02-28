@@ -47,7 +47,6 @@ const Say = async (ctx) => {
 }
 
 const GrabFile = (ctx, path = '') => {
-    console.log(ctx.req.file)
 }
 
 const UploadBackground = async (ctx) => {
@@ -57,7 +56,7 @@ const UploadFile = async (ctx) => {
 }
 
 const UploadProfile = async (ctx) => {
-    console.log(ctx.req.file)
+
 }
 
 module.exports = {
