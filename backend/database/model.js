@@ -8,7 +8,8 @@ const user_schema = {
     username: String,
     real_name: String,
     password: String,
-    level: Number
+    level: Number,
+    token: String
 }
 
 const text_schema = {

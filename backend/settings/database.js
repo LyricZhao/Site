@@ -18,7 +18,8 @@ const admin = {
     username: 'lyricz',
     real_name: 'Chenggang Zhao',
     password: sha1('ilovepauline'),
-    level: model.level_enum.admin
+    level: model.level_enum.admin,
+    token: ''
 }
 
 module.exports = {

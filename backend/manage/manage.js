@@ -4,6 +4,7 @@ const db = require(root_path + '/database/mongo.js')
 const fs = require('fs')
 const logger = require(root_path + '/logger/logger.js')
 const settings = require(root_path + '/settings/server.js')
+const token = require(root_path + '/manage/token.js')
 
 const Login = async (ctx) => {
     let user = {
@@ -12,10 +13,13 @@ const Login = async (ctx) => {
     }
     let doc = await db.find_one_user(user)
     if(doc) {
+        doc.token = token.createToken(user.username)
         ctx.body = {
             info: 0,
-            real_name: doc.real_name
+            real_name: doc.real_name,
+            token: doc.token
         }
+        db.save_doc(doc)
         logger.Info('A successful login, username: ' + ctx.request.body.username, 'manage.js: Login')
     } else {
         ctx.body = {info: 1}
@@ -30,7 +34,8 @@ const CreateAccount = async (ctx) => {
         username: ctx.request.body.username,
         real_name: ctx.request.body.real_name,
         password: ctx.request.body.password,
-        level: ctx.request.body.level
+        level: ctx.request.body.level,
+        token: ''
     }
     let root_pass = ctx.request.body.root_pass
     ctx.body = {info: root_pass === settings.root_pass ? 0 : 1}
