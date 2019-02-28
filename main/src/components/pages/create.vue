@@ -1,18 +1,18 @@
 <template>
     <div class="main">
-        <el-dialog center="true" title="新建账号" class="create-wrap" visible="true">
+        <el-dialog :visible.sync="visible" title="新建账号" class="create-wrap">
             <el-input type="text" placeholder="用户名" v-model="username"> </el-input>
             <el-input type="text" placeholder="真实姓名" v-model="real_name"> </el-input>
             <el-input type="password" placeholder="密码" v-model="password"> </el-input>
             <el-input type="password" placeholder="再次输入密码" v-model="password_duplicate"> </el-input>
             <el-input type="password" placeholder="权限密码" v-model="root_pass"> </el-input>
             <el-select v-model="level" placeholder="请选择账号类型">
-                <el-option value="0"> 管理员 </el-option>
-                <el-option value="1"> 小仙女 </el-option>
-                <el-option value="2"> 小伙伴 </el-option>
+                <el-option label="管理员" value="0"> </el-option>
+                <el-option label="小仙女" value="1"> </el-option>
+                <el-option label="小伙伴" value="2"> </el-option>
             </el-select>
             <span slot="footer" class="dialog-footer">
-                <el-button> 确定 </el-button>
+                <el-button @click="submit"> 确定 </el-button>
                 <el-button> 取消 </el-button>
             </span>
         </el-dialog>
@@ -42,16 +42,43 @@ export default {
             root_pass: '',
             password: '',
             password_duplicate: '',
-            level: ''
+            level: '',
+            visible: true
         }
     },
 
     methods: {
-        Submit() {
-            if(this.username === '' || this.password === '' || this.real_name === '') {
-                alert('请认真填写！')
+        submitFailed() {
+            this.$notify.error({
+                title: '提交失败',
+                message: '请检查你的输入'
+            })
+        },
+        differentPassword() {
+            this.$notify.error({
+                title: '提交失败',
+                message: '两次密码不一致'
+            })
+        },
+        wrongRootPassword() {
+            this.$notify.error({
+                title: '注册失败',
+                message: '错误的权限密码或已存在的用户名'
+            })
+        },
+        createSuccess() {
+            this.$notify({
+                title: '账号创建成功',
+                message: '快邀请你的小伙伴登录吧',
+                type: 'success'
+            })
+        },
+        submit() {
+            let level_options = ['0', '1', '2']
+            if(this.username === '' || this.password === '' || this.real_name === '' || !level_options.includes(this.level)) {
+                this.submitFailed()
             } else if(this.password !== this.password_duplicate) {
-                alert('两次密码不一致！')
+                this.differentPassword()
             } else {
                 let data = {
                     username: this.username,
@@ -61,7 +88,12 @@ export default {
                     level: Number(this.level),
                 }
                 this.$http.post(ServiceAddress.create_api, data).then((res) => {
-                    console.log(res) /* DEBUG */
+                    if(res.body.info) {
+                        this.wrongRootPassword()
+                    } else {
+                        this.createSuccess()
+                        this.visible = false
+                    }
                 })
             }
         }

@@ -11,7 +11,16 @@ const Login = async (ctx) => {
         password: ctx.request.body.password
     }
     let doc = await db.find_one_user(user)
-    ctx.body = {info: doc ? 0 : 1}
+    if(doc) {
+        ctx.body = {
+            info: 0,
+            real_name: doc.real_name
+        }
+        logger.Info('A successful login, username: ' + ctx.request.body.username, 'manage.js: Login')
+    } else {
+        ctx.body = {info: 1}
+        logger.Info('A failed login, username: ' + ctx.request.body.username, 'manage.js: Login')
+    }
     ctx.status = 200
 }
 
@@ -27,10 +36,14 @@ const CreateAccount = async (ctx) => {
     ctx.body = {info: root_pass === settings.root_pass ? 0 : 1}
     if(!ctx.body.info) {
         if(await db.find_one_user({username: user.username})) {
+            logger.Info('A failed creating account request, username duplicate: ' + user.username, 'manage.js: CreateAccount')
             ctx.body.info = 2
         } else {
             db.save_doc(user)
+            logger.Info('Successfully created account, username: ' + user.username + ', real name: ' + user.real_name + ', level: ' + String(user.level), 'manage.js: CreateAccount')
         }
+    } else {
+        logger.Info('A failed creating account request with wrong root password.', 'manage.js: CreateAccount')
     }
     ctx.status = 200
 }

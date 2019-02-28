@@ -1,11 +1,12 @@
 <template>
     <div class="main">
-        <el-dialog visible="true" title="登录" center="true">
+        <el-dialog :visible.sync="visible" title="登录" center>
             <el-input type="text" placeholder="用户名" v-model="username"> </el-input>
             <el-input type="password" placeholder="密码" v-model="password"> </el-input>
+            <el-checkbox v-model="remember_password"> 记住密码 </el-checkbox>
             <span slot="footer" class="dialog-footer">
-                <el-button> 确定 </el-button>
-                <el-button> 取消 </el-button>
+                <el-button @click="login"> 确定 </el-button>
+                <el-button @click="visible = false"> 取消 </el-button>
             </span>
         </el-dialog>
     </div>
@@ -15,6 +16,10 @@
 .el-input {
     margin-top: 15px
 }
+
+.el-checkbox {
+    margin-top: 25px
+}
 </style>
 
 
@@ -23,23 +28,50 @@ import ServiceAddress from '@/settings/address.js'
 import sha1 from 'sha1'
 
 export default {
+    name: 'login',
     data() {
         return {
+            visible: true,
             username: '',
-            password: ''
+            password: '',
+            remember_password: false
         }
     },
 
     methods: {
-        Login() {
+        loginFailed() {
+            this.$notify.error({
+                title: '登录失败',
+                message: '请检查你的输入',
+            })
+        },
+        loginSuccess(realname) {
+            this.$notify({
+                title: '登录成功',
+                message: '欢迎你，' + realname + '！',
+                type: 'success'
+            })
+        },
+        login() {
             if(this.username === '' || this.password === '') {
-                alert('请好好填写！')
+                this.loginFailed()
             } else {
                 let data = {
                     username: this.username,
                     password: sha1(this.password)
                 }
-                this.$http.post(ServiceAddress.login_api, data).then((res) => {})
+                this.$http.post(ServiceAddress.login_api, data).then((res) => {
+                    if(res.body.info === 0) {
+                        this.visible = false
+                        this.loginSuccess(res.body.real_name)
+                        if(this.remember_password) {
+                            document.cookie = 'lpuid=' + data.username + ';path=/';
+                            document.cookie = 'lppass=' + data.password + ';path=/';
+                        }
+                    } else {
+                        this.loginFailed()
+                    }
+                })
             }
         }
     }
