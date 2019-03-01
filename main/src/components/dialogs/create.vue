@@ -31,7 +31,7 @@
 
 <script>
 /* eslint-disable */
-import ServiceAddress from '@/settings/address.js'
+import service_address from '@/settings/address.js'
 import sha1 from 'sha1'
 
 export default {
@@ -43,7 +43,7 @@ export default {
             password: '',
             password_duplicate: '',
             level: '',
-            visible: true
+            visible: false
         }
     },
 
@@ -87,7 +87,7 @@ export default {
                     password: sha1(this.password),
                     level: Number(this.level),
                 }
-                this.$http.post(ServiceAddress.create_api, data).then((res) => {
+                this.$http.post(service_address.create_api, data).then((res) => {
                     if(res.body.info) {
                         this.wrongRootPassword()
                     } else {

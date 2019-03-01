@@ -24,14 +24,14 @@
 
 
 <script>
-import ServiceAddress from '@/settings/address.js'
+import service_address from '@/settings/address.js'
 import sha1 from 'sha1'
 
 export default {
     name: 'login',
     data() {
         return {
-            visible: true,
+            visible: false,
             username: '',
             password: '',
             remember_password: false
@@ -52,6 +52,9 @@ export default {
                 type: 'success'
             })
         },
+        setVisible(value) {
+            this.visible = value
+        },
         login() {
             if(this.username === '' || this.password === '') {
                 this.loginFailed()
@@ -60,7 +63,7 @@ export default {
                     username: this.username,
                     password: sha1(this.password)
                 }
-                this.$http.post(ServiceAddress.login_api, data).then((res) => {
+                this.$http.post(service_address.login_api, data).then((res) => {
                     if(res.body.info === 0) {
                         this.visible = false
                         this.loginSuccess(res.body.real_name)

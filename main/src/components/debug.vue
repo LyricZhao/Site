@@ -1,48 +1,61 @@
 <template>
-  <el-row class="container">
-    <!--头部-->
-    <el-col :span="24" class="topbar-wrap">
-      <div class="topbar-logo topbar-btn">
-        <a href="/"><img style="padding-left:8px;"></a>
-      </div>
-      <div class="topbar-logos">
-        <a href="/" style="color: #fff;"><span>车车综合管理</span></a>
-      </div>
-      <div class="topbar-title">
-        <!-- 注意：这里就是topNavState作用之处，根据当前路由所在根路由的type值判断显示不同顶部导航菜单 -->
-        <el-row>
-          <el-col :span="24">
-            <el-menu :default-active="defaultActiveIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
-              <el-menu-item index="/">工作台</el-menu-item>
-              <el-menu-item index="/enterpriseManager">企业管理</el-menu-item>
-              <el-menu-item index="/orderManager">订单管理</el-menu-item>
-              <el-menu-item index="/systemManager">系统管理</el-menu-item>
-            </el-menu>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="topbar-account topbar-btn">
-        <el-dropdown trigger="click">
-          <span class="el-dropdown-link userinfo-inner">
-            <i class="iconfont icon-user"></i> {{nickname}}   <i class="el-icon-caret-bottom"></i></span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/profile')"><span style="color: #555;font-size: 14px;">个人信息</span></div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/changepwd')"><span style="color: #555;font-size: 14px;">修改密码</span></div>
-            </el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </el-col>
-  </el-row>
+  <div>
+<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+  <el-menu-item index="1">处理中心</el-menu-item>
+  <el-submenu index="2">
+    <template slot="title">我的工作台</template>
+    <el-menu-item index="2-1">选项1</el-menu-item>
+    <el-menu-item index="2-2">选项2</el-menu-item>
+    <el-menu-item index="2-3">选项3</el-menu-item>
+    <el-submenu index="2-4">
+      <template slot="title">选项4</template>
+      <el-menu-item index="2-4-1">选项1</el-menu-item>
+      <el-menu-item index="2-4-2">选项2</el-menu-item>
+      <el-menu-item index="2-4-3">选项3</el-menu-item>
+    </el-submenu>
+  </el-submenu>
+  <el-menu-item index="3" disabled>消息中心</el-menu-item>
+  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+</el-menu>
+<div class="line"></div>
+<el-menu
+  :default-active="activeIndex2"
+  class="el-menu-demo"
+  mode="horizontal"
+  @select="handleSelect"
+  background-color="#545c64"
+  text-color="#fff"
+  active-text-color="#ffd04b">
+  <el-menu-item index="1">处理中心</el-menu-item>
+  <el-submenu index="2">
+    <template slot="title">我的工作台</template>
+    <el-menu-item index="2-1">选项1</el-menu-item>
+    <el-menu-item index="2-2">选项2</el-menu-item>
+    <el-menu-item index="2-3">选项3</el-menu-item>
+    <el-submenu index="2-4">
+      <template slot="title">选项4</template>
+      <el-menu-item index="2-4-1">选项1</el-menu-item>
+      <el-menu-item index="2-4-2">选项2</el-menu-item>
+      <el-menu-item index="2-4-3">选项3</el-menu-item>
+    </el-submenu>
+  </el-submenu>
+  <el-menu-item index="3" disabled>消息中心</el-menu-item>
+  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+</el-menu>
+  </div>
 </template>
 
 <script>
-
-export default {
-    
-}
+  export default {
+    data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '0'
+      };
+    },
+    methods: {
+      handleSelect() {
+      }
+    }
+  }
 </script>

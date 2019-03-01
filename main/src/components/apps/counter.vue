@@ -27,11 +27,11 @@ export default {
         }
     },
     mounted() {
-        this.UpdateTime()
-        this.timerID = setInterval(this.UpdateTime, 1000)
+        this.updateTime()
+        this.timerID = setInterval(this.updateTime, 1000)
     },
     methods: {
-        UpdateTime() {
+        updateTime() {
             let timestamp = Date.parse(new Date()) / 1000
             this.seconds = timestamp - 1546272000 /* 2019.01.01-00:00 */
             this.minutes = this.seconds / 60

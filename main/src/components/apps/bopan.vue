@@ -21,7 +21,7 @@
         </el-main>
 
         <el-footer>
-            <el-upload action="none" :before-upload="UploadFile" :show-file-list="false">
+            <el-upload action="none" :before-upload="uploadFile" :show-file-list="false">
                 <el-button> 上传新的文件 </el-button>
             </el-upload>
         </el-footer>
@@ -46,7 +46,7 @@ export default {
         // this.debug_message = server_address.upload_file_api
     },
     methods: {
-        UploadFile(file) {
+        uploadFile(file) {
             let fd = new FormData()
             fd.append('profile', file, file.name)            
             axios.post(server_address.upload_profile_api, fd, {

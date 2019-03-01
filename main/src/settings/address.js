@@ -1,4 +1,4 @@
-const Basic = {
+const basic = {
     site: 'http://localhost',
     main_port: '8080',
     api_port: '8001',
@@ -11,10 +11,10 @@ const Basic = {
 }
 
 export default {
-    login_api: Basic.site + ':' + Basic.api_port + Basic.login_path,
-    create_api: Basic.site + ':' + Basic.api_port + Basic.create_path,
-    say_api: Basic.site + ':' + Basic.api_port + Basic.say_path,
-    upload_background_api: Basic.site + ':' + Basic.api_port + Basic.upload_background_path,
-    upload_file_api: Basic.site + ':' + Basic.api_port + Basic.upload_file_path,
-    upload_profile_api: Basic.site + ':' + Basic.api_port + Basic.upload_profile_path
+    login_api: basic.site + ':' + basic.api_port + basic.login_path,
+    create_api: basic.site + ':' + basic.api_port + basic.create_path,
+    say_api: basic.site + ':' + basic.api_port + basic.say_path,
+    upload_background_api: basic.site + ':' + basic.api_port + basic.upload_background_path,
+    upload_file_api: basic.site + ':' + basic.api_port + basic.upload_file_path,
+    upload_profile_api: basic.site + ':' + basic.api_port + basic.upload_profile_path
 }

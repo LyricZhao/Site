@@ -5,7 +5,7 @@
             <input class="input-text-wrap" type="text" placeholder="用户名" v-model="username">
             <input class="input-text-wrap" type="text" placeholder="说点什么" v-model="text"> 
             <p> <input type="checkbox" class="checkbox-wrap" v-model="secret"> 小秘密 </p>
-            <button v-on:click="Submit"> 提交 </button>
+            <button v-on:click="submit"> 提交 </button>
         </div>
     </div>
 </template>
@@ -21,7 +21,7 @@
 
 <script>
 /* eslint-disable */
-import ServiceAddress from '@/settings/address.js'
+import service_address from '@/settings/address.js'
 import sha1 from 'sha1'
 
 export default {
@@ -34,13 +34,13 @@ export default {
     },
 
     methods: {
-        Submit() {
+        submit() {
             let data = {
                 username: this.username,
                 text: this.text,
                 is_private: this.secret
             }
-            this.$http.post(ServiceAddress.say_api, data).then((res) => { console.log(res) })
+            this.$http.post(service_address.say_api, data).then((res) => { console.log(res) })
         }
     }
 }
