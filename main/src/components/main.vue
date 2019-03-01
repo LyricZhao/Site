@@ -1,13 +1,14 @@
 <template>
     <div class="main" id="main">
         <audio id="bgm" loop src="/music/pauline.mp3"> </audio>
-        <div class="topbar">
+        <div class="dark_background" v-show="dark"> </div>
+        <div class="topbar" style="opacity: 0.8;">
             <topbar ref="topbar" @login="showLogin" @logout="logout" @center="showCenter" @apps="switchApps" @memory="switchMemory"> </topbar>
         </div>
         <div class="dialogs">
             <login ref="login" @successLogin="onLogin"> </login>
             <create ref="create"> </create>
-            <center ref="center" @switchApps="switchAppsAuto" @switchMemory="switchMemoryAuto"> </center>
+            <center ref="center" @switchApps="switchAppsAuto" @switchDark="switchDark" @switchMemory="switchMemoryAuto"> </center>
         </div>
         <div class="center-component">
             <memory ref="memory" v-show="xiu"> </memory>
@@ -28,6 +29,15 @@
     width: 80%;
     height: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+.dark_background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .footer {
@@ -57,7 +67,8 @@ export default {
     data() {
         return {
             name: 'main',
-            xiu: true
+            xiu: true,
+            dark: true
         }
     },
     components: {
@@ -127,6 +138,9 @@ export default {
         },
         switchAppsAuto() {
             this.$refs.plaza.switchAuto()
+        },
+        switchDark() {
+            this.dark = !this.dark
         },
         logout() {
             this.$notify({

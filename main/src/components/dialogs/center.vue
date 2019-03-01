@@ -2,21 +2,38 @@
     <div class="main">
         <el-dialog :visible.sync="visible" title="个人中心" center>
             <el-row :gutter="20">
-                <el-col :span="8" type="flex">
+                <el-col :span="8" type="flex" style="height: 320px">
                     <el-row type="flex" justify="center">
-                        <img class="img" src="/images/profile/default2.jpeg" width="70%" height="70%" />
+                        <img class="img" src="/images/profile/default.jpeg" width="240px" height="240px" />
                     </el-row>
-                    <el-row type="flex" justify="center" style="margin-top:20px;">
-                        <el-button class="card-text" type="primary" round> 上传新的 </el-button>
+                    <el-row type="flex" justify="center" style="margin-top:30px;">
+                        <el-upload action="none" :before-upload="uploadProfile" :show-file-list="false">
+                            <el-button class="card-text" type="primary" round> 上传新的 </el-button>
+                        </el-upload>
                     </el-row>
                 </el-col>
-                <el-col :span="16">
+                <el-col :span="16" style="height: 320px">
                     <el-row>
                         <el-col :span="8">
                             <el-card class="card-text" shadow="never"> 我的身份 </el-card>
                         </el-col>
                         <el-col :span="16">
                             <el-card class="card-text" shadow="hover"> {{ real_name }} ({{ level_name }}) </el-card>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-card class="card-text" shadow="never"> 背景图片 </el-card>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-card class="card-text" shadow="hover">
+                                <el-button type="text" round style="margin-top: -10px;"> 上传新的 </el-button>
+                            </el-card>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-card class="card-text" shadow="hover">
+                                <el-switch @change="switchDark" v-model="dark" active-text="暗" inactive-text="明"> </el-switch>
+                            </el-card>
                         </el-col>
                     </el-row>
                     <el-row>
@@ -68,6 +85,10 @@
     border-radius: 4px;
 }
 
+.el-card {
+    height: 60px
+}
+
 .card-text {
     text-align: center;
 }
@@ -78,6 +99,10 @@
 </style>
 
 <script>
+
+import axios from 'axios'
+import server_address from '@/settings/address.js'
+
 export default {
     data() {
         return {
@@ -86,18 +111,14 @@ export default {
             level_name: '小仙女',
             bgm: false,
             memory_auto: true,
-            apps_auto: true
+            apps_auto: true,
+            dark: true
         }
     },
     methods: {
         show() {
             this.visible = true
             this.real_name = sessionStorage.getItem('real_name')
-        },
-        setConfig(bgm_, memory_auto_, apps_auto_) {
-            this.bgm = bgm_
-            this.memory_auto = memory_auto_
-            this.apps_auto = apps_auto_
         },
         switchBgm() {
             var audio = document.getElementById('bgm');
@@ -107,11 +128,35 @@ export default {
                 audio.pause()
             }
         },
+        uploadProfile(file) {
+            let fd = new FormData()
+            fd.append('profile', file, file.name)
+            fd.append('username', sessionStorage.getItem('username'))
+            axios.post(server_address.upload_profile_api, fd, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: sessionStorage.getItem('token')
+                }
+            }).then(() => {
+                this.$notify({
+                    title: '成功上传',
+                    type: 'success'
+                })
+            }, () => {
+                this.$notify.error({
+                    title: '错误',
+                    message: '上传失败'
+                })
+            })
+        },
         switchMemory() {
             this.$emit('switchMemory')
         },
         switchApps() {
             this.$emit('switchApps')
+        },
+        switchDark() {
+            this.$emit('switchDark')
         }
     }
 }

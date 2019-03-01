@@ -19,7 +19,9 @@ const admin = {
     real_name: '赵成钢',
     password: sha1('ilovepauline'),
     level: model.level_enum.admin,
-    token: ''
+    token: '',
+    profile: '',
+    background: ''
 }
 
 module.exports = {

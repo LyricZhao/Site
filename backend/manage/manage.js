@@ -16,6 +16,7 @@ const login = async (ctx) => {
         doc.token = token.createToken(user.username)
         ctx.body = {
             info: 0,
+            username: doc.username,
             real_name: doc.real_name,
             level: doc.level,
             token: doc.token
@@ -54,9 +55,6 @@ const createAccount = async (ctx) => {
     ctx.status = 200
 }
 
-const grabFile = (ctx, path = '') => {
-}
-
 const uploadBackground = async (ctx) => {
 }
 
@@ -64,10 +62,33 @@ const uploadFile = async (ctx) => {
 }
 
 const uploadProfile = async (ctx) => {
+    let doc = await db.findOneUser({username: ctx.req.body.username})
+    doc.profile = ctx.req.file.path
+    doc.save()
+    ctx.status = 200
+}
 
+const processPath = (path, attr) => {
+    if (!path) {
+      if (attr === 'profile') return 'profile.jpeg'
+      return 'background.jpg'
+    }
+    let sp = path.split('/')
+    return sp[sp.length - 1]
+}
+
+const getProfile = async (ctx) => {
+    let doc = await db.findOneUser({username: ctx.query.username})
+    if(!doc) {
+        ctx.status = 403
+    } else {
+        ctx.status = 200
+        ctx.redirect('/' + processPath(doc.profile, 'profile'))
+    }
 }
 
 module.exports = {
     login, createAccount,
-    uploadBackground, uploadFile, uploadProfile
+    uploadBackground, uploadFile, uploadProfile,
+    getProfile
 }

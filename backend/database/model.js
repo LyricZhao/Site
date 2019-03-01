@@ -9,7 +9,9 @@ const user_schema = {
     real_name: String,
     password: String,
     level: Number,
-    token: String
+    token: String,
+    profile: String,
+    background: String
 }
 
 const file_schema = {
