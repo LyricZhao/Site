@@ -12,18 +12,11 @@ const user_schema = {
     token: String
 }
 
-const text_schema = {
-    date: String,
-    username: String,
-    context: String,
-    is_private: Boolean
-}
-
 const file_schema = {
     username: String,
     file: String
 }
 
 module.exports = {
-    level_enum, user_schema, text_schema, file_schema
+    level_enum, user_schema, file_schema
 }

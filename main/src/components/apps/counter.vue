@@ -6,10 +6,10 @@
 
         <el-main>
             <div>
-            <!-- {{ Math.floor(days) }} 天 <br>
+            {{ Math.floor(days) }} 天 <br>
             也就是 {{ Math.floor(hours) }} 小时 <br>
             也就是 {{ Math.floor(minutes) }} 分钟 <br>
-            也就是 {{ seconds }} 秒 <br> -->
+            也就是 {{ seconds }} 秒 <br>
             </div>
         </el-main>
 

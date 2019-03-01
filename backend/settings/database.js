@@ -16,7 +16,7 @@ const connect_options = {
 
 const admin = {
     username: 'lyricz',
-    real_name: 'Chenggang Zhao',
+    real_name: '赵成钢',
     password: sha1('ilovepauline'),
     level: model.level_enum.admin,
     token: ''

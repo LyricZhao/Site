@@ -45,10 +45,10 @@ export default {
                 message: '请检查你的输入',
             })
         },
-        loginSuccess(realname) {
+        loginSuccess(real_name) {
             this.$notify({
                 title: '登录成功',
-                message: '欢迎你，' + realname + '！',
+                message: '欢迎你，' + real_name + '！',
                 type: 'success'
             })
         },
@@ -67,10 +67,14 @@ export default {
                     if(res.body.info === 0) {
                         this.visible = false
                         this.loginSuccess(res.body.real_name)
+                        sessionStorage.setItem('real_name', res.body.real_name)
+                        sessionStorage.setItem('token', res.body.token)
+                        sessionStorage.setItem('username', res.body.username)
                         if(this.remember_password) {
                             document.cookie = 'lpuid=' + data.username + ';path=/';
                             document.cookie = 'lppass=' + data.password + ';path=/';
                         }
+                        this.$emit('successLogin')
                     } else {
                         this.loginFailed()
                     }

@@ -17,6 +17,7 @@ const login = async (ctx) => {
         ctx.body = {
             info: 0,
             real_name: doc.real_name,
+            level: doc.level,
             token: doc.token
         }
         doc.save()
@@ -53,17 +54,6 @@ const createAccount = async (ctx) => {
     ctx.status = 200
 }
 
-const say = async (ctx) => {
-    let text = {
-        date: (new Date()).toLocaleString(),
-        username: ctx.request.body.username,
-        context: ctx.request.body.text,
-        is_private: ctx.request.body.is_private
-    }
-    db.saveText(text)
-    ctx.status = 200
-}
-
 const grabFile = (ctx, path = '') => {
 }
 
@@ -78,6 +68,6 @@ const uploadProfile = async (ctx) => {
 }
 
 module.exports = {
-    login, createAccount, say,
+    login, createAccount,
     uploadBackground, uploadFile, uploadProfile
 }

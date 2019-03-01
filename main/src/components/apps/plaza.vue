@@ -1,13 +1,14 @@
 <template>
-    <el-carousel :autoplay="false" type="card" height="60vh">
-        <!-- apps below -->
-        <el-carousel-item>
-            <counter ref="counter"> </counter>
-        </el-carousel-item>
-        <el-carousel-item>
-            <bopan ref="bopan"> </bopan>
-        </el-carousel-item>
-    </el-carousel>
+    <div class="main">
+        <el-carousel :autoplay="autoplay" type="card" height="60vh">
+            <!-- apps below -->
+            <el-carousel-item>
+                <counter ref="counter"> </counter>
+            </el-carousel-item>
+            <el-carousel-item>
+                <bopan ref="bopan"> </bopan>
+            </el-carousel-item>
+        </el-carousel>
     </div>
 </template>
 
@@ -18,26 +19,27 @@ import bopan from '@/components/apps/bopan.vue'
 export default {
     name: 'page',
     data() {
-        return {}
+        return {
+            logined: false,
+            autoplay: true
+        }
     },
     components: {
         counter: counter,
         bopan: bopan
     },
-    methods: {}
+    methods: {
+        switchStatus() {
+            this.logined = !this.logined
+        },
+        switchAuto() {
+            this.autoplay = !this.autoplay
+        }
+    }
 }
 </script>
 
-
 <style scoped>
-.dark_background {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-}
 
 .el-carousel__item {
     background: rgb(255, 255, 255);
