@@ -67,9 +67,11 @@ export default {
                     if(res.body.info === 0) {
                         this.visible = false
                         this.loginSuccess(res.body.real_name)
+                        let levels = ['管理员', '小仙女', '小伙伴']
                         sessionStorage.setItem('real_name', res.body.real_name)
                         sessionStorage.setItem('token', res.body.token)
                         sessionStorage.setItem('username', res.body.username)
+                        sessionStorage.setItem('level_name', levels[res.body.level])
                         if(this.remember_password) {
                             document.cookie = 'lpuid=' + data.username + ';path=/';
                             document.cookie = 'lppass=' + data.password + ';path=/';

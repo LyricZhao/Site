@@ -1,14 +1,15 @@
 <template>
     <div class="main" id="main">
         <audio id="bgm" loop src="/music/pauline.mp3"> </audio>
+        <div class="background" v-bind:style="`background: url(${background_url}) center`"> </div>
         <div class="dark_background" v-show="dark"> </div>
         <div class="topbar" style="opacity: 0.8;">
-            <topbar ref="topbar" @login="showLogin" @logout="logout" @center="showCenter" @apps="switchApps" @memory="switchMemory"> </topbar>
+            <topbar ref="topbar" @create="showCreate" @login="showLogin" @logout="logout" @center="showCenter" @apps="switchApps" @memory="switchMemory"> </topbar>
         </div>
         <div class="dialogs">
             <login ref="login" @successLogin="onLogin"> </login>
             <create ref="create"> </create>
-            <center ref="center" @switchApps="switchAppsAuto" @switchDark="switchDark" @switchMemory="switchMemoryAuto"> </center>
+            <center ref="center" @changeBackground="refreshBackground" @switchApps="switchAppsAuto" @switchDark="switchDark" @switchMemory="switchMemoryAuto"> </center>
         </div>
         <div class="center-component">
             <memory ref="memory" v-show="xiu"> </memory>
@@ -21,6 +22,16 @@
 </template>
 
 <style scoped>
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+}
 
 .center-component {
     position: fixed;
@@ -68,7 +79,8 @@ export default {
         return {
             name: 'main',
             xiu: true,
-            dark: true
+            dark: true,
+            background_url: ''
         }
     },
     components: {
@@ -81,10 +93,6 @@ export default {
         copyright: copyright
     },
     mounted() {
-        /* FOR DEBUG */
-        sessionStorage.setItem('real_name', '丁欣然')
-        // this.showCenter()
-
         sessionStorage.setItem('logined', false)
         let data = this.extractUserCookie()
         if(data) {
@@ -98,19 +106,30 @@ export default {
                         title: '自动登录成功',
                         type: 'success'
                     })
+                    let levels = ['管理员', '小仙女', '小伙伴']
                     sessionStorage.setItem('real_name', res.body.real_name)
                     sessionStorage.setItem('token', res.body.token)
                     sessionStorage.setItem('username', res.body.username)
+                    sessionStorage.setItem('level_name', levels[res.body.level])
                     this.onLogin()
                 } else {
                     this.autoLoginFailed()
+                    this.refreshBackground()
                 }
             }, () => {
                 this.autoLoginFailed()
+                this.refreshBackground()
             })
+        } else {
+            this.refreshBackground()
         }
     },
     methods: {
+        refreshBackground() {
+            let username = ''
+            if(sessionStorage.getItem('username')) username = sessionStorage.getItem('username')
+            this.background_url = service_address.get_background_api + '?username=' + username + '&random=' + Math.random()
+        },
         autoLoginFailed() {
             this.$notify.error({
                 title: '自动登录失败',
@@ -147,10 +166,19 @@ export default {
                 title: '退出登录成功',
                 type: 'success'
             })
+            sessionStorage.setItem('username', '')
+            sessionStorage.setItem('real_name', '')
+            sessionStorage.setItem('token', '')
+            sessionStorage.setItem('level_name', '')
             this.switchStatus()
+            this.refreshBackground()
         },
         onLogin() {
             this.switchStatus()
+            this.refreshBackground()
+        },
+        showCreate() {
+            this.$refs.create.visible = true
         },
         showLogin() {
             this.$refs.login.visible = true

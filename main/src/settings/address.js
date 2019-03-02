@@ -7,7 +7,9 @@ const basic = {
     say_path: '/api/say',
     upload_background_path: '/api/upload_background',
     upload_file_path: '/api/upload_file',
-    upload_profile_path: '/api/upload_profile'
+    upload_profile_path: '/api/upload_profile',
+    get_profile_path: '/api/get_profile',
+    get_background_path: '/api/get_background'
 }
 
 export default {
@@ -16,5 +18,7 @@ export default {
     say_api: basic.site + ':' + basic.api_port + basic.say_path,
     upload_background_api: basic.site + ':' + basic.api_port + basic.upload_background_path,
     upload_file_api: basic.site + ':' + basic.api_port + basic.upload_file_path,
-    upload_profile_api: basic.site + ':' + basic.api_port + basic.upload_profile_path
+    upload_profile_api: basic.site + ':' + basic.api_port + basic.upload_profile_path,
+    get_profile_api: basic.site + ':' + basic.api_port + basic.get_profile_path,
+    get_background_api: basic.site + ':' + basic.api_port + basic.get_background_path
 }

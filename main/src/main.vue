@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <router-view> </router-view>
-    <div class="background"> </div>
   </div>
 </template>
 
@@ -22,17 +21,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin: 0 !important;
-}
-
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: url('/images/ui/background.jpg') no-repeat center;
-  background-size: cover;
-  height: 100vh;
-  width: 100vw;
-  z-index: -1;
 }
 </style>
 

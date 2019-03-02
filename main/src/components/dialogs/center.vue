@@ -4,7 +4,7 @@
             <el-row :gutter="20">
                 <el-col :span="8" type="flex" style="height: 320px">
                     <el-row type="flex" justify="center">
-                        <img class="img" src="/images/profile/default.jpeg" width="240px" height="240px" />
+                        <img class="img" :src="profile_addr" width="240px" height="240px" alt="唔 好像出BUG了"/>
                     </el-row>
                     <el-row type="flex" justify="center" style="margin-top:30px;">
                         <el-upload action="none" :before-upload="uploadProfile" :show-file-list="false">
@@ -27,7 +27,9 @@
                         </el-col>
                         <el-col :span="8">
                             <el-card class="card-text" shadow="hover">
-                                <el-button type="text" round style="margin-top: -10px;"> 上传新的 </el-button>
+                                <el-upload action="none" :before-upload="uploadBackground" :show-file-list="false">
+                                    <el-button type="text" round style="margin-top: -10px;"> 上传新的 </el-button>
+                                </el-upload>
                             </el-card>
                         </el-col>
                         <el-col :span="8">
@@ -106,19 +108,22 @@ import server_address from '@/settings/address.js'
 export default {
     data() {
         return {
-            visible: true,
-            real_name: '丁欣然', // DEBUG
-            level_name: '小仙女',
+            visible: false,
+            real_name: '',
+            level_name: '',
             bgm: false,
             memory_auto: true,
             apps_auto: true,
-            dark: true
+            dark: true,
+            profile_addr: ''
         }
     },
     methods: {
         show() {
-            this.visible = true
             this.real_name = sessionStorage.getItem('real_name')
+            this.level_name = sessionStorage.getItem('level_name')
+            this.profile_addr = server_address.get_profile_api + '?username=' + sessionStorage.getItem('username') + '&random=' + Math.random()
+            this.visible = true
         },
         switchBgm() {
             var audio = document.getElementById('bgm');
@@ -128,26 +133,43 @@ export default {
                 audio.pause()
             }
         },
-        uploadProfile(file) {
-            let fd = new FormData()
-            fd.append('profile', file, file.name)
-            fd.append('username', sessionStorage.getItem('username'))
-            axios.post(server_address.upload_profile_api, fd, {
+        getHeaders() {
+            return {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: sessionStorage.getItem('token')
                 }
-            }).then(() => {
-                this.$notify({
-                    title: '成功上传',
-                    type: 'success'
-                })
-            }, () => {
-                this.$notify.error({
-                    title: '错误',
-                    message: '上传失败'
-                })
+            }
+        },
+        uploadSuccess() {
+            this.$notify({
+                title: '成功上传',
+                type: 'success'
             })
+        },
+        uploadFailed() {
+            this.$notify.error({
+                title: '错误',
+                message: '上传失败'
+            })
+        },
+        uploadBackground(file) {
+            let fd = new FormData()
+            fd.append('background', file, file.name)
+            fd.append('username', sessionStorage.getItem('username'))
+            axios.post(server_address.upload_background_api, fd, this.getHeaders()).then(() => {
+                this.uploadSuccess()
+                this.$emit('changeBackground')
+            }, this.uploadFailed)
+        },
+        uploadProfile(file) {
+            let fd = new FormData()
+            fd.append('profile', file, file.name)
+            fd.append('username', sessionStorage.getItem('username'))
+            axios.post(server_address.upload_profile_api, fd, this.getHeaders()).then(() => {
+                this.uploadSuccess()
+                this.show()
+            }, this.uploadFailed)
         },
         switchMemory() {
             this.$emit('switchMemory')
