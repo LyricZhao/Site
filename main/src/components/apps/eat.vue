@@ -37,6 +37,15 @@
     </el-container>
 </template>
 
+<style scoped>
+
+.el-button {
+    font-size: 2vh;
+}
+
+</style>
+
+
 <script>
 export default {
     name: 'eat',

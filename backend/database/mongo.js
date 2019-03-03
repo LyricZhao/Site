@@ -3,6 +3,7 @@ const root_path = process.cwd()
 const logger = require(root_path + '/logger/logger.js')
 const mongoose = require('mongoose')
 const os = require('os')
+const mfs = require(root_path + '/manage/filesystem.js')
 
 const db_options = require(root_path + '/settings/database.js')
 const model = require(root_path + '/database/model.js')
@@ -46,12 +47,29 @@ const findAllUser = async (requirement) => {
     })
 }
 
-const findFileUser = async (username) => {
-    let user = {username: username}
+const findOneFile = async (requirement) => {
     return new Promise((resolve, reject) => {
-        file_model.find(user, (err, obj) => {
+        file_model.findOne(requirement, (err, doc) => {
             if(err) reject(err)
-            resolve(obj)
+            resolve(doc)
+        })
+    })
+}
+
+const findAllFile = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        file_model.find(requirement, (err, doc) => {
+            if(err) reject(err)
+            resolve(doc)
+        })
+    })
+}
+
+const removeOneFile = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        file_model.findOneAndDelete(requirement, (err, doc) => {
+            if(err) reject(err)
+            resolve(doc)
         })
     })
 }
@@ -65,6 +83,7 @@ const onUserDbConnected = async () => {
     logger.info('Database (user) connected.', 'mongo.js: onUserDbConnected')
     if(db_options.create_admin) {
         saveDoc(db_options.admin)
+        mfs.mkdirUser(db_options.admin.username)
     }
 }
 
@@ -105,5 +124,6 @@ module.exports = {
     load, close,
     saveDoc, saveFile,
     findOneUser, findAllUser,
-    findFileUser
+    findOneFile, findAllFile,
+    removeOneFile
 }

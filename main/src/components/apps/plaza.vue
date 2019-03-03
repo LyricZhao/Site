@@ -36,6 +36,7 @@ export default {
     methods: {
         switchStatus() {
             this.logined = !this.logined
+            this.$refs.bopan.switchStatus()
         },
         switchAuto() {
             this.autoplay = !this.autoplay

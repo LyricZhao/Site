@@ -16,7 +16,8 @@ const user_schema = {
 
 const file_schema = {
     username: String,
-    file: String
+    file_name: String,
+    date: String,
 }
 
 module.exports = {

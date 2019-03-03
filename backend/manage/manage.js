@@ -5,6 +5,7 @@ const fs = require('fs')
 const logger = require(root_path + '/logger/logger.js')
 const settings = require(root_path + '/settings/server.js')
 const token = require(root_path + '/manage/token.js')
+const mfs = require(root_path + '/manage/filesystem.js')
 
 const login = async (ctx) => {
     let user = {
@@ -52,6 +53,7 @@ const createAccount = async (ctx) => {
     } else {
         logger.info('A failed creating account request with wrong root password.', 'manage.js: CreateAccount')
     }
+    mfs.mkdirUser(user.username)
     ctx.status = 200
 }
 
@@ -62,7 +64,38 @@ const uploadBackground = async (ctx) => {
     ctx.status = 200
 }
 
+const getFileList = async (ctx) => {
+    let files = await db.findAllFile({username: ctx.request.body.username})
+    ctx.status = 200
+    ctx.body = {list: files}
+}
+
 const uploadFile = async (ctx) => {
+    let username = ctx.req.body.username
+    let doc = await db.findOneFile({username: username, file_name: ctx.req.file.originalname})
+    ctx.status = 200
+    if(doc) {
+        ctx.body = {info: 1}
+    } else {
+        ctx.body = {info: 0}
+        let file = {
+            username: username,
+            file_name: ctx.req.file.originalname,
+            date: (new Date()).toLocaleString()
+        }
+        db.saveFile(file)
+        mfs.storeUserFile(username, ctx.req.file)
+    }
+}
+
+const deleteFile = async (ctx) => {
+    let file = {
+        username: ctx.request.body.username,
+        file_name: ctx.request.body.file_name
+    }
+    ctx.status = 200
+    db.removeOneFile(file)
+    mfs.removeFile(file)
 }
 
 const uploadProfile = async (ctx) => {
@@ -107,6 +140,7 @@ const getBackground = async (ctx) => {
 
 module.exports = {
     login, createAccount,
-    uploadBackground, uploadFile, uploadProfile,
-    getProfile, getBackground
+    uploadBackground, uploadProfile,
+    getProfile, getBackground,
+    uploadFile, getFileList, deleteFile
 }
