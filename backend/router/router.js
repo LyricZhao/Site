@@ -11,6 +11,7 @@ child_router.post('/login', manage.login)
 child_router.post('/create', manage.createAccount)
 
 child_router.get('/get_profile', manage.getProfile)
+child_router.get('/get_background', manage.getBackground)
 
 const multer = require('koa-multer')
 const upload_background = multer({dest: process.cwd() + '/uploads/background/'})

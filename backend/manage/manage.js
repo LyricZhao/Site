@@ -56,6 +56,10 @@ const createAccount = async (ctx) => {
 }
 
 const uploadBackground = async (ctx) => {
+    let doc = await db.findOneUser({username: ctx.req.body.username})
+    doc.background = ctx.req.file.path
+    doc.save()
+    ctx.status = 200
 }
 
 const uploadFile = async (ctx) => {
@@ -71,7 +75,7 @@ const uploadProfile = async (ctx) => {
 const processPath = (path, attr) => {
     if (!path) {
       if (attr === 'profile') return 'profile.jpeg'
-      return 'background.jpg'
+      return 'background.jpeg'
     }
     let sp = path.split('/')
     return sp[sp.length - 1]
@@ -87,8 +91,22 @@ const getProfile = async (ctx) => {
     }
 }
 
+const getBackground = async (ctx) => {
+    if(!ctx.query.username) {
+        ctx.redirect('/background.jpeg')
+    } else {
+        let doc = await db.findOneUser({username: ctx.query.username})
+        if(!doc) {
+            ctx.status = 403
+        } else {
+            ctx.status = 200
+            ctx.redirect('/' + processPath(doc.background, 'background'))
+        }    
+    }
+}
+
 module.exports = {
     login, createAccount,
     uploadBackground, uploadFile, uploadProfile,
-    getProfile
+    getProfile, getBackground
 }

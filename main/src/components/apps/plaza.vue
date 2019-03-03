@@ -1,12 +1,15 @@
 <template>
     <div class="main">
-        <el-carousel :autoplay="autoplay" type="card" height="60vh">
+        <el-carousel :autoplay="false" type="card" height="60vh">
             <!-- apps below -->
             <el-carousel-item>
                 <counter ref="counter"> </counter>
             </el-carousel-item>
             <el-carousel-item>
                 <bopan ref="bopan"> </bopan>
+            </el-carousel-item>
+            <el-carousel-item>
+                <eat ref="eat"> </eat>
             </el-carousel-item>
         </el-carousel>
     </div>
@@ -15,6 +18,7 @@
 <script>
 import counter from '@/components/apps/counter.vue'
 import bopan from '@/components/apps/bopan.vue'
+import eat from '@/components/apps/eat.vue'
 
 export default {
     name: 'page',
@@ -26,7 +30,8 @@ export default {
     },
     components: {
         counter: counter,
-        bopan: bopan
+        bopan: bopan,
+        eat: eat
     },
     methods: {
         switchStatus() {

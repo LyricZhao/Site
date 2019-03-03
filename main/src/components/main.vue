@@ -78,7 +78,7 @@ export default {
     data() {
         return {
             name: 'main',
-            xiu: true,
+            xiu: false, // DEBUG
             dark: true,
             background_url: ''
         }
