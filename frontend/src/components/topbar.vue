@@ -1,7 +1,11 @@
 <template>
     <div class="main" id="main">
         <div v-show="logined">
-            <el-menu default-active="memory" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+            <el-menu default-active="" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                <el-menu-item index="">
+                    <i class="el-icon-star-off" style="margin-top: -5px"></i>
+                    祝最爱的欣然女生节快乐
+                </el-menu-item>
                 <el-menu-item index="center"> 个人中心 </el-menu-item>
                 <el-menu-item index="memory"> Memory </el-menu-item>
                 <el-menu-item index="apps"> 应用广场 </el-menu-item>
@@ -10,7 +14,11 @@
             </el-menu>
         </div>
         <div v-show="!logined">
-            <el-menu default-active="memory" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+            <el-menu default-active="" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                <el-menu-item index="">
+                    <i class="el-icon-star-off" style="margin-top: -5px"></i>
+                    祝最爱的欣然女生节快乐
+                </el-menu-item>
                 <el-menu-item index="login"> 登录 </el-menu-item>
                 <el-menu-item index="memory"> Memory </el-menu-item>
                 <el-menu-item index="apps"> 应用广场 </el-menu-item>
@@ -31,6 +39,7 @@ export default {
     },
     methods: {
         handleSelect(key) {
+            if(!key) return
             let keys = ['login', 'center', 'apps', 'memory', 'create']
             if(keys.includes(key)) {
                 this.$emit(key)
