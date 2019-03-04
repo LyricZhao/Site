@@ -70,7 +70,7 @@ import topbar from '@/components/topbar.vue'
 import center from '@/components/dialogs/center.vue'
 import create from '@/components/dialogs/create.vue'
 import login from '@/components/dialogs/login.vue'
-import memory from '@/components/apps/memory.vue'
+import memory from '@/components/memory.vue'
 import plaza from '@/components/apps/plaza.vue'
 import copyright from '@/components/copyright.vue'
 
@@ -78,7 +78,7 @@ export default {
     data() {
         return {
             name: 'main',
-            xiu: false, // DEBUG
+            xiu: true,
             dark: true,
             background_url: ''
         }

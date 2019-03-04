@@ -111,6 +111,7 @@ const onUserDbConnected = async () => {
     if(db_options.create_admin) {
         saveDoc(db_options.admin)
         mfs.mkdirUser(db_options.admin.username)
+        mfs.mkdirUser('__system_album__')
     }
 }
 

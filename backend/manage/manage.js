@@ -80,6 +80,13 @@ const getFileList = async (ctx) => {
     }
 }
 
+const getAlbumList = async (ctx) => {
+    let files = await db.findAllFile({username: '__system_album__'})
+    ctx.status = 200
+    ctx.body = {list: files}
+    logger.info('Got a request of getAlbumList', 'manage.js: getAlbumList')
+}
+
 const uploadFile = async (ctx) => {
     let username = ctx.req.body.username
     if(!username) {
@@ -103,6 +110,27 @@ const uploadFile = async (ctx) => {
     }
 }
 
+const uploadAlbum = async (ctx) => {
+    let doc = await db.findOneFile({
+        username: '__system_album__',
+        file_name: ctx.req.file.originalname
+    })
+    if(doc) {
+        ctx.body = {info: 1}
+    } else {
+        ctx.body = {info: 0}
+        let file = {
+            username: '__system_album__',
+            file_name: ctx.req.file.originalname,
+            date: (new Date()).toLocaleString()
+        }
+        await db.saveFile(file)
+        mfs.storeUserFile('__system_album__', ctx.req.file)
+    }
+    ctx.status = 200
+    logger.info(ctx.req.body.username + ' uploads a new photo for the album.', 'manage.js: uploadAlbum')
+}
+
 const deleteFile = async (ctx) => {
     let file = {
         username: ctx.request.body.username,
@@ -115,6 +143,21 @@ const deleteFile = async (ctx) => {
         await db.removeOneFile(file) // SYNC
         mfs.removeFile(file)
         logger.info(file.username + ' removes a file.', 'manage.js: deleteFile')
+    }
+}
+
+const deleteAlbum = async (ctx) => {
+    let file = {
+        username: '__system_album__',
+        file_name: ctx.request.body.file_name
+    }
+    if(!file.file_name) {
+        ctx.status = 404
+    } else {
+        ctx.status = 200
+        await db.removeOneFile(file)
+        mfs.removeFile(file)
+        logger.info(ctx.request.body.username + ' removes a file.', 'manage.js: deleteAlbum')
     }
 }
 
@@ -132,7 +175,7 @@ const uploadProfile = async (ctx) => {
 
 const processPath = (path, attr) => {
     if (!path) {
-      if (attr === 'profile') return 'profile.png'
+      if (attr === 'profile') return 'profile.jpeg'
       return 'background.jpeg'
     }
     let sp = path.split('/')
@@ -184,5 +227,6 @@ module.exports = {
     login, createAccount,
     uploadBackground, uploadProfile, getAllUser,
     getProfile, getBackground,
-    uploadFile, getFileList, deleteFile
+    uploadFile, getFileList, deleteFile,
+    uploadAlbum, getAlbumList, deleteAlbum
 }

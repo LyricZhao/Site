@@ -8,7 +8,7 @@
             <h3>
                 这是一个集<del>实用功能</del>和爱于一体的送给欣欣然的女生节礼物的四分之一 <br> <br>
             </h3>
-            <el-card style="margin-top: -30px">
+            <el-card style="margin-top: -20px">
                 <el-row style="font-size: 40px">
                         <el-col :span="12">
                             <i class="el-icon-loading"> </i> Developer 
@@ -49,7 +49,7 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-button type="primary" @click="help" style="margin-top: 20px"> 帮助作者充值波式按摩会员卡 </el-button>
+            <el-button type="primary" @click="help" style="margin-top: 40px"> 帮助作者充值波式按摩会员卡 </el-button>
         </el-main>
     </el-container>
 </template>

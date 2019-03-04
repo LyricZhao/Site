@@ -17,6 +17,9 @@
             <el-carousel-item v-if="call_enable">
                 <call ref="call"> </call>
             </el-carousel-item>
+            <el-carousel-item v-if="album_enable">
+                <album ref="album"> </album>
+            </el-carousel-item>
             <el-carousel-item v-if="about_enable">
                 <about ref="about"> </about>
             </el-carousel-item>
@@ -25,6 +28,8 @@
 </template>
 
 <script>
+
+import album from '@/components/apps/album.vue'
 import call from '@/components/apps/call.vue'
 import counter from '@/components/apps/counter.vue'
 import bopan from '@/components/apps/bopan.vue'
@@ -38,15 +43,17 @@ export default {
         return {
             logined: false,
             autoplay: true,
-            call_enable: false,
-            counter_enable: false,
+            album_enable: true,
+            call_enable: true,
+            counter_enable: true,
             bopan_enable: true,
-            eat_enable: false,
-            about_enable: false,
-            friends_enable: false
+            eat_enable: true,
+            about_enable: true,
+            friends_enable: true
         }
     },
     components: {
+        album: album,
         call: call,
         counter: counter,
         bopan: bopan,
@@ -58,6 +65,10 @@ export default {
         switchStatus() {
             this.logined = !this.logined
             this.$refs.bopan.switchStatus()
+            this.$refs.album.switchStatus()
+            this.$refs.call.switchStatus()
+            this.$refs.friends.switchStatus()
+            this.$refs.album.switchStatus()
         },
         switchAuto() {
             this.autoplay = !this.autoplay
