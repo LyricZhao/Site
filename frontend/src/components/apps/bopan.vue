@@ -14,7 +14,7 @@
                 <el-table-column prop="file_name" label="文件名" width="150"> </el-table-column>
                 <el-table-column prop="link" label="下载链接" width="360">
                     <template slot-scope="scope">
-                        <a :href="scope.row.link"> {{ scope.row.link }} </a>
+                        <a :href="scope.row.link" target="_blank"> {{ scope.row.link }} </a>
                     </template>
                 </el-table-column>
                 <el-table-column prop="file_name" label="" width="100">

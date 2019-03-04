@@ -4,7 +4,7 @@
             <h2> 相册管理 </h2>
         </el-header>
 
-        <el-main v-show="!files.length">
+        <el-main v-show="!files.length || !logined || !is_us">
             <h2 v-show="logined && is_us"> 现在没有照片<br> 快去上传一个吧 </h2>
             <h2 v-show="logined && !is_us"> 你没有权限管理照片 </h2>
             <h2 v-show="!logined"> 你还没有登录 </h2>
