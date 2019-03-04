@@ -9,6 +9,7 @@
   "author": "LyricZ",
   "license": "ISC",
   "dependencies": {
+    "del": "^4.0.0",
     "jsonwebtoken": "^8.5.0",
     "koa": "^2.7.0",
     "koa-body": "^4.0.8",

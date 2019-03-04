@@ -17,49 +17,25 @@ const file_schema = new mongoose.Schema(model.file_schema)
 
 const saveDoc = (info) => {
     let doc = new user_model(info)
-    doc.save((err, res) => {
-        if(err) logger.error(err, 'mongo.js: saveDoc')
+    return new Promise((resolve, reject) => {
+        doc.save((err, doc) => {
+            if(err) {
+                logger.error(err, 'mongo.js: saveDoc')
+                reject(err)
+            }
+            resolve(doc)
+        })
     })
 }
 
 const saveFile = (file) => {
     let doc = new file_model(file)
-    doc.save((err, res) => {
-        if(err) logger.error(err, 'mongo.js: saveFile')
-    })
-}
-
-const findOneUser = async (requirement) => {
     return new Promise((resolve, reject) => {
-        user_model.findOne(requirement, (err, doc) => {
-            if(err) reject(err)
-            resolve(doc)
-        })
-    })
-}
-
-const findAllUser = async (requirement) => {
-    return new Promise((resolve, reject) => {
-        user_model.find(requirement, (err, doc) => {
-            if(err) reject(err)
-            resolve(doc)
-        })
-    })
-}
-
-const findOneFile = async (requirement) => {
-    return new Promise((resolve, reject) => {
-        file_model.findOne(requirement, (err, doc) => {
-            if(err) reject(err)
-            resolve(doc)
-        })
-    })
-}
-
-const findAllFile = async (requirement) => {
-    return new Promise((resolve, reject) => {
-        file_model.find(requirement, (err, doc) => {
-            if(err) reject(err)
+        doc.save((err, doc) => {
+            if(err) {
+                logger.error(err, 'mongo.js: saveFile')
+                reject(err)
+            }
             resolve(doc)
         })
     })
@@ -68,7 +44,58 @@ const findAllFile = async (requirement) => {
 const removeOneFile = async (requirement) => {
     return new Promise((resolve, reject) => {
         file_model.findOneAndDelete(requirement, (err, doc) => {
-            if(err) reject(err)
+            if(err) {
+                logger.error(err, 'mongo.js: removeOneFile')
+                reject(err)
+            }
+            resolve(doc)
+        })
+    })
+}
+
+const findOneUser = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        user_model.findOne(requirement, (err, doc) => {
+            if(err) {
+                logger.error(err, 'mongo.js: findOneUser')
+                reject(err)
+            }
+            resolve(doc)
+        })
+    })
+}
+
+const findAllUser = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        user_model.find(requirement, (err, doc) => {
+            if(err){ 
+                logger.error(err, 'mongo.js: findAllUser')
+                reject(err)
+            }
+            resolve(doc)
+        })
+    })
+}
+
+const findOneFile = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        file_model.findOne(requirement, (err, doc) => {
+            if(err) {
+                logger.error(err, 'mongo.js: findOneFile')
+                reject(err)
+            }
+            resolve(doc)
+        })
+    })
+}
+
+const findAllFile = async (requirement) => {
+    return new Promise((resolve, reject) => {
+        file_model.find(requirement, (err, doc) => {
+            if(err) {
+                logger.error(err, 'mongo.js: findAllFile')
+                reject(err)
+            }
             resolve(doc)
         })
     })

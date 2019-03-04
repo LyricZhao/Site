@@ -40,7 +40,7 @@ export default {
             autoplay: true,
             call_enable: true,
             counter_enable: false,
-            bopan_enable: false,
+            bopan_enable: true,
             eat_enable: false,
             about_enable: false,
             friends_enable: true

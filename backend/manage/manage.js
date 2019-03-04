@@ -73,7 +73,6 @@ const getFileList = async (ctx) => {
 const uploadFile = async (ctx) => {
     let username = ctx.req.body.username
     let doc = await db.findOneFile({username: username, file_name: ctx.req.file.originalname})
-    ctx.status = 200
     if(doc) {
         ctx.body = {info: 1}
     } else {
@@ -83,9 +82,10 @@ const uploadFile = async (ctx) => {
             file_name: ctx.req.file.originalname,
             date: (new Date()).toLocaleString()
         }
-        db.saveFile(file)
+        await db.saveFile(file) // SYNC
         mfs.storeUserFile(username, ctx.req.file)
     }
+    ctx.status = 200
 }
 
 const deleteFile = async (ctx) => {
@@ -94,7 +94,7 @@ const deleteFile = async (ctx) => {
         file_name: ctx.request.body.file_name
     }
     ctx.status = 200
-    db.removeOneFile(file)
+    await db.removeOneFile(file) // SYNC
     mfs.removeFile(file)
 }
 
