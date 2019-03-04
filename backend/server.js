@@ -11,6 +11,11 @@ const static = require('koa-static')
 const settings = require(root_path + '/settings/server.js')
 const database = require(root_path + '/database/mongo.js')
 
+if(settings.clean_before_start) {
+    const cleaner = require(root_path + '/clean/cleaner.js')
+    cleaner.cleanUploads()
+}
+
 database.load()
 const app = new koa()
 if(settings.enable_koa_cors) {
