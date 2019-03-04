@@ -54,28 +54,38 @@ export default {
             this.logined = !this.logined
             this.refreshFileList()
         },
+        checkSize(size, limit) {
+            return size / 1024 < limit // in KB
+        },
         uploadFile(file) {
-            let fd = new FormData()
-            fd.append('file', file, file.name)
-            fd.append('username', sessionStorage.getItem('username')) // DEBUG
-            axios.post(server_address.upload_file_api, fd, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res) => {
-                if(!res.data.info) {
-                    this.$notify({
-                        title: '上传成功',
-                        type: 'success'
-                    })
-                    this.refreshFileList()
-                } else {
-                    this.$notify.error({
-                        title: '上传失败',
-                        message: '有重名的文件'
-                    })
-                }
-            })
+            if(!this.checkSize(file.size, 1024 * 100)) {
+                this.$notify.error({
+                    title: '上传失败',
+                    message: '文件不能超过100MB'
+                })
+            } else {
+                let fd = new FormData()
+                fd.append('file', file, file.name)
+                fd.append('username', sessionStorage.getItem('username')) // DEBUG
+                axios.post(server_address.upload_file_api, fd, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((res) => {
+                    if(!res.data.info) {
+                        this.$notify({
+                            title: '上传成功',
+                            type: 'success'
+                        })
+                        this.refreshFileList()
+                    } else {
+                        this.$notify.error({
+                            title: '上传失败',
+                            message: '有重名的文件'
+                        })
+                    }
+                })
+            }
         },
         refreshFileList() {
             if(this.logined) {

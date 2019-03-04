@@ -38,12 +38,12 @@ export default {
         return {
             logined: false,
             autoplay: true,
-            call_enable: true,
+            call_enable: false,
             counter_enable: false,
             bopan_enable: true,
             eat_enable: false,
             about_enable: false,
-            friends_enable: true
+            friends_enable: false
         }
     },
     components: {

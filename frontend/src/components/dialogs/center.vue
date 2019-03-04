@@ -119,6 +119,13 @@ export default {
         }
     },
     methods: {
+        checkImg(type) {
+            let allowed = ['image/png', 'image/jpg', 'image/jpeg', 'image/bmp', 'image/gif']
+            return allowed.includes(type)
+        },
+        checkSize(size, limit) {
+            return size / 1024 < limit // in KB
+        },
         show() {
             this.real_name = sessionStorage.getItem('real_name')
             this.level_name = sessionStorage.getItem('level_name')
@@ -154,23 +161,37 @@ export default {
                 message: '上传失败'
             })
         },
+        uploadFormatError() {
+            this.$notify.error({
+                title: '格式错误',
+                message: '文件必须为PNG/JPG/JPEG/BMP/GIF文件，且大小不超过2MB'
+            })
+        },
         uploadBackground(file) {
-            let fd = new FormData()
-            fd.append('background', file, file.name)
-            fd.append('username', sessionStorage.getItem('username'))
-            axios.post(server_address.upload_background_api, fd, this.getHeaders()).then(() => {
-                this.uploadSuccess()
-                this.$emit('changeBackground')
-            }, this.uploadFailed)
+            if(!this.checkImg(file.type) || !this.checkSize(file.size, 2048)) {
+                this.uploadFormatError()
+            } else {
+                let fd = new FormData()
+                fd.append('background', file, file.name)
+                fd.append('username', sessionStorage.getItem('username'))
+                axios.post(server_address.upload_background_api, fd, this.getHeaders()).then(() => {
+                    this.uploadSuccess()
+                    this.$emit('changeBackground')
+                }, this.uploadFailed)
+            }
         },
         uploadProfile(file) {
-            let fd = new FormData()
-            fd.append('profile', file, file.name)
-            fd.append('username', sessionStorage.getItem('username'))
-            axios.post(server_address.upload_profile_api, fd, this.getHeaders()).then(() => {
-                this.uploadSuccess()
-                this.show()
-            }, this.uploadFailed)
+            if(!this.checkImg(file.type) || !this.checkSize(file.size, 2048)) {
+                this.uploadFormatError()
+            } else {
+                let fd = new FormData()
+                fd.append('profile', file, file.name)
+                fd.append('username', sessionStorage.getItem('username'))
+                axios.post(server_address.upload_profile_api, fd, this.getHeaders()).then(() => {
+                    this.uploadSuccess()
+                    this.show()
+                }, this.uploadFailed)
+            }
         },
         switchMemory() {
             this.$emit('switchMemory')
