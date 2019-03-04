@@ -58,34 +58,49 @@ const createAccount = async (ctx) => {
 }
 
 const uploadBackground = async (ctx) => {
-    let doc = await db.findOneUser({username: ctx.req.body.username})
-    doc.background = ctx.req.file.path
-    doc.save()
-    ctx.status = 200
+    if(!ctx.req.body.username) {
+        ctx.status = 404
+    } else {
+        let doc = await db.findOneUser({username: ctx.req.body.username})
+        doc.background = ctx.req.file.path
+        doc.save()
+        ctx.status = 200
+        logger.info(ctx.req.body.username + ' uploads a new background.', 'manage.js: uploadBackground')
+    }
 }
 
 const getFileList = async (ctx) => {
-    let files = await db.findAllFile({username: ctx.request.body.username})
-    ctx.status = 200
-    ctx.body = {list: files}
+    if(!ctx.request.body.username) {
+        ctx.status = 404
+    } else {
+        let files = await db.findAllFile({username: ctx.request.body.username})
+        ctx.status = 200
+        ctx.body = {list: files}
+        logger.info(ctx.request.body.username + ' requests file list.', 'manage.js: getFileList')
+    }
 }
 
 const uploadFile = async (ctx) => {
     let username = ctx.req.body.username
-    let doc = await db.findOneFile({username: username, file_name: ctx.req.file.originalname})
-    if(doc) {
-        ctx.body = {info: 1}
+    if(!username) {
+        ctx.status = 404
     } else {
-        ctx.body = {info: 0}
-        let file = {
-            username: username,
-            file_name: ctx.req.file.originalname,
-            date: (new Date()).toLocaleString()
+        let doc = await db.findOneFile({username: username, file_name: ctx.req.file.originalname})
+        if(doc) {
+            ctx.body = {info: 1}
+        } else {
+            ctx.body = {info: 0}
+            let file = {
+                username: username,
+                file_name: ctx.req.file.originalname,
+                date: (new Date()).toLocaleString()
+            }
+            await db.saveFile(file) // SYNC
+            mfs.storeUserFile(username, ctx.req.file)
         }
-        await db.saveFile(file) // SYNC
-        mfs.storeUserFile(username, ctx.req.file)
+        ctx.status = 200
+        logger.info(username + ' uploads a file.', 'manage.js: uploadFile')
     }
-    ctx.status = 200
 }
 
 const deleteFile = async (ctx) => {
@@ -93,21 +108,31 @@ const deleteFile = async (ctx) => {
         username: ctx.request.body.username,
         file_name: ctx.request.body.file_name
     }
-    ctx.status = 200
-    await db.removeOneFile(file) // SYNC
-    mfs.removeFile(file)
+    if(!file.username || !file.file_name) {
+        ctx.status = 404
+    } else {
+        ctx.status = 200
+        await db.removeOneFile(file) // SYNC
+        mfs.removeFile(file)
+        logger.info(file.username + ' removes a file.', 'manage.js: deleteFile')
+    }
 }
 
 const uploadProfile = async (ctx) => {
-    let doc = await db.findOneUser({username: ctx.req.body.username})
-    doc.profile = ctx.req.file.path
-    doc.save()
-    ctx.status = 200
+    if(!ctx.req.body.username) {
+        ctx.status = 404
+    } else {
+        let doc = await db.findOneUser({username: ctx.req.body.username})
+        doc.profile = ctx.req.file.path
+        doc.save()
+        ctx.status = 200
+        logger.info(ctx.req.body.username + ' uploads a new profile.', 'manage.js: uploadProfile')
+    }
 }
 
 const processPath = (path, attr) => {
     if (!path) {
-      if (attr === 'profile') return 'peppa.png'
+      if (attr === 'profile') return 'profile.png'
       return 'background.jpeg'
     }
     let sp = path.split('/')
@@ -121,6 +146,7 @@ const getProfile = async (ctx) => {
     } else {
         ctx.status = 200
         ctx.redirect('/' + processPath(doc.profile, 'profile'))
+        logger.info(ctx.query.username + ' returns profile.', 'manage.js: getProfile')
     }
 }
 
@@ -134,6 +160,7 @@ const getBackground = async (ctx) => {
         } else {
             ctx.status = 200
             ctx.redirect('/' + processPath(doc.background, 'background'))
+            logger.info(ctx.query.username + ' returns background.', 'manage.js: getBackground')
         }    
     }
 }
@@ -150,6 +177,7 @@ const getAllUser = async (ctx) => {
         })
     }
     ctx.status = 200
+    logger.info('Got a getAllUser request.', 'manage.js: getAllUser')
 }
 
 module.exports = {

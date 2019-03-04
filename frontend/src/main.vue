@@ -1,12 +1,18 @@
 <template>
   <div id="app">
-    <router-view> </router-view>
+    <ui ref="ui"> </ui>
   </div>
 </template>
 
 <script>
+
+import ui from '@/components/main.vue'
+
 export default {
   name: 'app',
+  components: {
+    ui: ui
+  },
   data() {
     return {}
   }

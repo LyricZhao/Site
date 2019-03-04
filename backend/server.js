@@ -14,6 +14,7 @@ const database = require(root_path + '/database/mongo.js')
 if(settings.clean_before_start) {
     const cleaner = require(root_path + '/clean/cleaner.js')
     cleaner.cleanUploads()
+    logger.info('Cleaned all uploaded files', 'server.js')
 }
 
 database.load()

@@ -4,6 +4,9 @@
             <h2> 用户列表 </h2>
         </el-header>
         <el-main>
+            <div v-show="!rows">
+                <h2> 当前系统中没有用户或存在网络故障 <br> 请联系管理员 </h2>
+            </div>
             <el-row v-for="i in rows" :key="i" :gutter="10">
                 <el-col :span="6" v-for="j in 4" :key="j">
                     <el-card v-if="(i - 1) * 4 + j <= friends.length">
