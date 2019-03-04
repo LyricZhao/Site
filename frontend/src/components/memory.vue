@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <el-carousel :autoplay="autoplay" indicator-position="outside" height="60vh">
+        <el-carousel :autoplay="autoplay" indicator-position="outside" height="70vh">
             <el-carousel-item v-for="img_link in links" :key="img_link">
                 <img class="img" :src="img_link" height="95%">
             </el-carousel-item>
@@ -35,12 +35,7 @@ export default {
         }
     },
     mounted() {
-        this.links = []
-        this.$http.post(server_address.get_album_list_api, {}).then((res) => {
-            for(let i in res.body.list) {
-                this.links.push(server_address.static_server + '/__system_album__/' + res.body.list[i].file_name)
-            }
-        })
+        this.refreshMemory()
     },
     methods: {
         switchStatus() {
@@ -48,6 +43,14 @@ export default {
         },
         switchAuto() {
             this.autoplay = !this.autoplay
+        },
+        refreshMemory() {
+            this.links = []
+            this.$http.post(server_address.get_album_list_api, {}).then((res) => {
+                for(let i in res.body.list) {
+                    this.links.push(server_address.static_server + '/__system_album__/' + res.body.list[i].file_name)
+                }
+            })
         }
     }
 }

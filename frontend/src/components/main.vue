@@ -13,7 +13,7 @@
         </div>
         <div class="center-component">
             <memory ref="memory" v-show="xiu"> </memory>
-            <plaza ref="plaza" @create="showCreate" v-show="!xiu"> </plaza>
+            <plaza ref="plaza" @memoryChange="refreshMemory" @create="showCreate" v-show="!xiu"> </plaza>
         </div>
         <div class="footer">
             <copyright> </copyright>
@@ -132,6 +132,9 @@ export default {
         },
         refreshFriendList() {
             this.$refs.plaza.refreshFriendList()
+        },
+        refreshMemory() {
+            this.$refs.memory.refreshMemory()
         },
         autoLoginFailed() {
             this.$notify.error({

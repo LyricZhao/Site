@@ -18,7 +18,7 @@
                 <call ref="call"> </call>
             </el-carousel-item>
             <el-carousel-item v-if="album_enable">
-                <album ref="album"> </album>
+                <album @memoryChange="refreshMemory" ref="album"> </album>
             </el-carousel-item>
             <el-carousel-item v-if="about_enable">
                 <about ref="about"> </about>
@@ -65,7 +65,6 @@ export default {
         switchStatus() {
             this.logined = !this.logined
             this.$refs.bopan.switchStatus()
-            this.$refs.album.switchStatus()
             this.$refs.call.switchStatus()
             this.$refs.friends.switchStatus()
             this.$refs.album.switchStatus()
@@ -78,6 +77,9 @@ export default {
         },
         refreshFriendList() {
             this.$refs.friends.refreshFriendList()
+        },
+        refreshMemory() {
+            this.$emit('memoryChange')
         }
     }
 }

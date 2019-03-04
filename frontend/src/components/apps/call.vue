@@ -13,11 +13,9 @@
                 </el-col>
                 <el-col :span="6">
                     <el-button @click="help" v-show="logined && is_dxr" size="small"> 点击叫猪 </el-button>
-                    <el-button v-show="!logined || !is_dxr" size="small" disabled> 没有权限 </el-button>
+                    <el-button v-show="!logined || !is_dxr" size="small" disabled> 无权叫猪 </el-button>
                 </el-col>
             </el-row>
-            
-            
         </el-footer>
     </el-container>
 </template>

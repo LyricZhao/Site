@@ -6,13 +6,13 @@
 
         <el-main v-show="!files.length">
             <h2 v-show="logined && is_us"> 现在没有照片<br> 快去上传一个吧 </h2>
-            <h2 v-show="logined && !is_us"> 你没有权限上传新的照片 </h2>
+            <h2 v-show="logined && !is_us"> 你没有权限管理照片 </h2>
             <h2 v-show="!logined"> 你还没有登录 </h2>
         </el-main>
 
-        <el-main v-show="files.length">
+        <el-main v-show="files.length && is_us">
             <el-table :data="files" style="width: 100%">
-                <el-table-column prop="file_name" label="照片" width="150"> </el-table-column>
+                <el-table-column prop="file_name" label="照片" width="520"> </el-table-column>
                 <el-table-column prop="file_name" label="" width="100">
                     <template slot-scope="scope">
                         <el-button type="danger" size="mini" @click="removeFile(scope.row.file_name)"> 删除 </el-button>
@@ -38,8 +38,8 @@ export default {
     name: 'bopan',
     data() {
         return {
-            logined: true,
-            is_us: true,
+            logined: false,
+            is_us: false,
             files: []
         }
     },
@@ -83,6 +83,7 @@ export default {
                             type: 'success'
                         })
                         this.refreshFileList()
+                        this.$emit('memoryChange')
                     } else {
                         this.$notify.error({
                             title: '上传失败',
@@ -112,13 +113,12 @@ export default {
                 username: sessionStorage.getItem('username'),
                 file_name: file_name
             }
-            this.$http.post(server_address.delete_album_api, file).then((res) => {
-                if(res.body.info === 0) {
-                    this.$notify({
-                        title: '删除成功',
-                        type: 'success'
-                    })
-                }
+            this.$http.post(server_address.delete_album_api, file).then(() => {
+                this.$notify({
+                    title: '删除成功',
+                    type: 'success'
+                })
+                this.$emit('memoryChange')
                 this.refreshFileList()
             })
         }
