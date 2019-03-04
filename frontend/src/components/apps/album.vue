@@ -65,8 +65,8 @@ export default {
         uploadFile(file) {
             if(!this.checkImg(file.type) || !this.checkSize(file.size, 1024 * 2)) {
                 this.$notify.error({
-                    title: '上传失败',
-                    message: '照片不能超过2MB'
+                    title: '格式错误',
+                    message: '文件必须为PNG/JPG/JPEG/BMP/GIF文件，且大小不超过2MB'
                 })
             } else {
                 let fd = new FormData()

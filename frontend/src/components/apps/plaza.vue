@@ -42,7 +42,7 @@ export default {
     data() {
         return {
             logined: false,
-            autoplay: true,
+            autoplay: false,
             album_enable: true,
             call_enable: true,
             counter_enable: true,

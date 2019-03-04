@@ -113,7 +113,7 @@ export default {
             level_name: '',
             bgm: false,
             memory_auto: true,
-            apps_auto: true,
+            apps_auto: false,
             dark: true,
             profile_addr: ''
         }
