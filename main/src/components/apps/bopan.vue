@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-            <h3> BO盘 </h3>
+            <h2> BO盘 </h2>
         </el-header>
 
         <el-main v-show="!files.length">

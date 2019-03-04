@@ -8,12 +8,12 @@
         </div>
         <div class="dialogs">
             <login ref="login" @successLogin="onLogin"> </login>
-            <create ref="create"> </create>
-            <center ref="center" @changeBackground="refreshBackground" @switchApps="switchAppsAuto" @switchDark="switchDark" @switchMemory="switchMemoryAuto"> </center>
+            <create ref="create" @newFriend="refreshFriendList"> </create>
+            <center ref="center" @changeProfile="refreshFriendList" @changeBackground="refreshBackground" @switchApps="switchAppsAuto" @switchDark="switchDark" @switchMemory="switchMemoryAuto"> </center>
         </div>
         <div class="center-component">
             <memory ref="memory" v-show="xiu"> </memory>
-            <plaza ref="plaza" v-show="!xiu"> </plaza>
+            <plaza ref="plaza" @create="showCreate" v-show="!xiu"> </plaza>
         </div>
         <div class="footer">
             <copyright> </copyright>
@@ -129,6 +129,9 @@ export default {
             let username = ''
             if(sessionStorage.getItem('username')) username = sessionStorage.getItem('username')
             this.background_url = service_address.get_background_api + '?username=' + username + '&random=' + Math.random()
+        },
+        refreshFriendList() {
+            this.$refs.plaza.refreshFriendList()
         },
         autoLoginFailed() {
             this.$notify.error({

@@ -13,7 +13,6 @@
             </el-select>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="submit"> 确定 </el-button>
-                <el-button> 取消 </el-button>
             </span>
         </el-dialog>
     </div>
@@ -72,6 +71,7 @@ export default {
                 message: '快邀请你的小伙伴登录吧',
                 type: 'success'
             })
+            this.$emit('newFriend')
         },
         submit() {
             let level_options = ['0', '1', '2']

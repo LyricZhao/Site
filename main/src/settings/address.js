@@ -13,6 +13,7 @@ const basic = {
     get_background_path: '/api/get_background',
     get_file_list_path: '/api/get_file_list',
     delete_file_path: '/api/delete_file',
+    get_all_user_path: '/api/get_all_user'
 }
 
 export default {
@@ -26,5 +27,6 @@ export default {
     get_profile_api: basic.site + ':' + basic.api_port + basic.get_profile_path,
     get_background_api: basic.site + ':' + basic.api_port + basic.get_background_path,
     get_file_list_api: basic.site + ':' + basic.api_port + basic.get_file_list_path,
-    delete_file_api: basic.site + ':' + basic.api_port + basic.delete_file_path
+    delete_file_api: basic.site + ':' + basic.api_port + basic.delete_file_path,
+    get_all_user_api: basic.site + ':' + basic.api_port + basic.get_all_user_path
 }

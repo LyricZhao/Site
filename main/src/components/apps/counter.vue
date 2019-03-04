@@ -1,15 +1,17 @@
 <template>
     <el-container>
         <el-header>
-            <h3> 计时器 </h3>
+            <h2> 计时器 </h2>
         </el-header>
 
-        <el-main>
+        <el-main style="margin-top:-10px">
+            <el-card>
+                <img src="/images/ui/counter.jpeg" width="80%">
+            </el-card>
             <div>
-            {{ Math.floor(days) }} 天 <br>
-            也就是 {{ Math.floor(hours) }} 小时 <br>
-            也就是 {{ Math.floor(minutes) }} 分钟 <br>
-            也就是 {{ seconds }} 秒 <br>
+            <br>
+            我们在一起已经 {{ Math.floor(days) }} 天 ({{ Math.floor(hours) }} 小时 / {{ Math.floor(minutes) }} 分钟 / {{ seconds }} 秒) 了 <br>
+            距离一百年还有 {{ 36500 - Math.floor(days) }} 天 ({{876000 - Math.floor(hours) }} 小时 / {{ 52560000 - Math.floor(minutes) }} 分钟 / {{ 3153600000 - seconds }} 秒)
             </div>
         </el-main>
 

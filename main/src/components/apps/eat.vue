@@ -11,9 +11,9 @@
                         <el-col :span="12" style="height: 210px">
                             <img src="/images/ui/eat.jpeg" height="100%"/>
                         </el-col>
-                        <el-col :span="12" style="height: 170px; margin-top: 40px;">
+                        <el-col :span="12" style="height: 170px; margin-top: -25px; margin-left: -15px">
                             <el-row>
-                                <h3> {{ choice }} </h3>
+                                <h1 style="font-size: 40pt"> {{ choice }} </h1>
                             </el-row>
                             <el-row>
                                 <el-button @click="changeOption"> 点我决定你的饭 </el-button>
@@ -89,7 +89,7 @@ export default {
                 this.times += 1
                 this.choice = options[this.getRandomInt(options.length)]
             } else {
-                this.choice = '请至少选择一个'
+                this.choice = '请选一个'
             }
         }
     }

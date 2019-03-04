@@ -107,7 +107,7 @@ const uploadProfile = async (ctx) => {
 
 const processPath = (path, attr) => {
     if (!path) {
-      if (attr === 'profile') return 'profile.jpeg'
+      if (attr === 'profile') return 'peppa.png'
       return 'background.jpeg'
     }
     let sp = path.split('/')
@@ -138,9 +138,23 @@ const getBackground = async (ctx) => {
     }
 }
 
+const getAllUser = async (ctx) => {
+    let db_data = await db.findAllUser({})
+    let level_map = ['管理员', '小仙女', '小伙伴']
+    ctx.body = {friends: []}
+    for(let i in db_data) {
+        ctx.body.friends.push({
+            username: db_data[i].username,
+            real_name: db_data[i].real_name,
+            level_name: level_map[db_data[i].level]
+        })
+    }
+    ctx.status = 200
+}
+
 module.exports = {
     login, createAccount,
-    uploadBackground, uploadProfile,
+    uploadBackground, uploadProfile, getAllUser,
     getProfile, getBackground,
     uploadFile, getFileList, deleteFile
 }

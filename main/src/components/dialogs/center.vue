@@ -146,6 +146,7 @@ export default {
                 title: '成功上传',
                 type: 'success'
             })
+            this.$emit('changeProfile')
         },
         uploadFailed() {
             this.$notify.error({

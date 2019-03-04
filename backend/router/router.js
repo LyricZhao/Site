@@ -9,6 +9,7 @@ const child_router = new router()
 
 child_router.post('/login', manage.login)
 child_router.post('/create', manage.createAccount)
+child_router.post('/get_all_user', manage.getAllUser)
 
 child_router.get('/get_profile', manage.getProfile)
 child_router.get('/get_background', manage.getBackground)

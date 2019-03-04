@@ -1,37 +1,58 @@
 <template>
     <div class="main">
-        <el-carousel :autoplay="false" type="card" height="60vh">
+        <el-carousel :autoplay="autoplay" type="card" height="60vh">
             <!-- apps below -->
-            <el-carousel-item>
+            <el-carousel-item v-if="counter_enable">
                 <counter ref="counter"> </counter>
             </el-carousel-item>
-            <el-carousel-item>
+            <el-carousel-item v-if="bopan_enable">
                 <bopan ref="bopan"> </bopan>
             </el-carousel-item>
-            <el-carousel-item>
+            <el-carousel-item v-if="eat_enable">
                 <eat ref="eat"> </eat>
+            </el-carousel-item>
+            <el-carousel-item v-if="friends_enable">
+                <friends @create="showCreate" ref="friends"> </friends>
+            </el-carousel-item>
+            <el-carousel-item v-if="call_enable">
+                <call ref="call"> </call>
+            </el-carousel-item>
+            <el-carousel-item v-if="about_enable">
+                <about ref="about"> </about>
             </el-carousel-item>
         </el-carousel>
     </div>
 </template>
 
 <script>
+import call from '@/components/apps/call.vue'
 import counter from '@/components/apps/counter.vue'
 import bopan from '@/components/apps/bopan.vue'
 import eat from '@/components/apps/eat.vue'
+import about from '@/components/apps/about.vue'
+import friends from '@/components/apps/friends.vue'
 
 export default {
     name: 'page',
     data() {
         return {
             logined: false,
-            autoplay: true
+            autoplay: true,
+            call_enable: true,
+            counter_enable: false,
+            bopan_enable: false,
+            eat_enable: false,
+            about_enable: false,
+            friends_enable: true
         }
     },
     components: {
+        call: call,
         counter: counter,
         bopan: bopan,
-        eat: eat
+        eat: eat,
+        about: about,
+        friends: friends
     },
     methods: {
         switchStatus() {
@@ -40,6 +61,12 @@ export default {
         },
         switchAuto() {
             this.autoplay = !this.autoplay
+        },
+        showCreate() {
+            this.$emit('create')
+        },
+        refreshFriendList() {
+            this.$refs.friends.refreshFriendList()
         }
     }
 }
