@@ -4,7 +4,7 @@
             <el-row :gutter="20">
                 <el-col :span="8" type="flex" style="height: 320px">
                     <el-row type="flex" justify="center">
-                        <img class="img" :src="profile_addr" width="240px" height="240px" alt="唔 好像出BUG了"/>
+                        <img class="img" :src="profile_addr" width="100%" height="100%" alt="唔 好像出BUG了"/>
                     </el-row>
                     <el-row type="flex" justify="center" style="margin-top:30px;">
                         <el-upload action="none" :before-upload="uploadProfile" :show-file-list="false">

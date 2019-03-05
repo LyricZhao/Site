@@ -1,17 +1,17 @@
 <template>
     <el-container>
         <el-header>
-            <h2> 用户列表 </h2>
+            <h2 style="font-size: 3vh"> 用户列表 </h2>
         </el-header>
-        <el-main>
+        <el-main style="margin-top: -2%">
             <div v-show="!rows">
                 <h2> 当前系统中没有用户或存在网络故障 <br> 请联系管理员 </h2>
             </div>
-            <el-row v-for="i in rows" :key="i" :gutter="10">
+            <el-row style="margin-top: 2%" v-for="i in rows" :key="i" :gutter="10">
                 <el-col :span="6" v-for="j in 4" :key="j">
                     <el-card v-if="(i - 1) * 4 + j <= friends.length">
-                        <img :src="friends[(i - 1) * 4 + j - 1].profile_link" width="100px" height="100px">
-                        <div style="font-size: 15px; margin-top: 10px">
+                        <img style="width: 100%" :src="friends[(i - 1) * 4 + j - 1].profile_link">
+                        <div style="font-size: 1.3vh; margin-top: 5%;">
                             {{ friends[(i - 1) * 4 + j - 1].real_name }} / {{ friends[(i - 1) * 4 + j - 1].level_name }}
                         </div>
                     </el-card>
@@ -19,8 +19,8 @@
             </el-row>
         </el-main>
         <el-footer>
-            <el-button v-show="logined" @click="showCreate"> 邀请新的朋友 </el-button>
-            <el-button v-show="!logined" disabled> 邀请新的朋友 </el-button>
+            <el-button style="font-size: 2vh; margin-top: 3%" v-show="logined" @click="showCreate"> 邀请新的朋友 </el-button>
+            <el-button style="font-size: 2vh; margin-top: 3%" v-show="!logined" disabled> 邀请新的朋友 </el-button>
         </el-footer>
     </el-container>
 </template>
@@ -71,9 +71,6 @@ export default {
 </script>
 
 <style scoped>
-.el-button {
-    font-size: 2vh;
-}
 
 .el-footer {
     position: absolute;

@@ -62,6 +62,27 @@
 
 </style>
 
+<style>
+
+.el-card {
+    margin: 0px auto;
+    width: 100%;
+    height: 100%;
+}
+
+.el-card__body {
+    height: 100%;
+}
+
+.el-table__header {
+    margin: 0px auto;
+}
+
+.el-table__body {
+    margin: 0px auto;
+}
+
+</style>
 
 <script>
 

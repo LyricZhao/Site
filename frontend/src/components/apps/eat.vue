@@ -1,50 +1,40 @@
 <template>
-    <el-container>
-        <el-header>
-            <h2> 随缘吃饭 </h2>
-        </el-header>
-
-        <el-main style="margin-top: 20px">
-            <div>
-                <el-card @click="changeOption" class="box-card">
-                    <el-row :gutter="5">
-                        <el-col :span="12" style="height: 210px">
+    <!-- SS/OK -->
+    <div style="height: 100%;">
+        <h2 style="font-size: 3vh"> 随缘吃饭 </h2>
+        <div style="height: 80%;">
+            <div style="height: 64%; width: 95%; margin: 0px auto;">
+                <el-card @click="changeOption">
+                    <el-row style="height: 100%;">
+                        <el-col :span="11" style="height: 85%">
                             <img src="/images/ui/eat.jpeg" height="100%"/>
                         </el-col>
-                        <el-col :span="12" style="height: 170px; margin-top: -25px; margin-left: -15px">
+                        <el-col :span="1" style="height: 85%"></el-col>
+                        <el-col :span="12" style="height: 85%;">
                             <el-row>
-                                <h1 style="font-size: 40pt"> {{ choice }} </h1>
+                                <h1 style="font-size: 6vh"> {{ choice }} </h1>
                             </el-row>
                             <el-row>
-                                <el-button @click="changeOption"> 点我决定你的饭 </el-button>
+                                <br>
+                                <el-button style="font-size: 1.5vh" @click="changeOption"> 点我决定你的饭 </el-button>
                             </el-row>
                         </el-col>
                     </el-row>
                 </el-card>
             </div>
-        </el-main>
-
-        <el-footer style="margin-top: 30px">
-            <h3> 备选项 </h3>
-            <el-row v-for="i in rows" :key="i">
-                <el-col :span="6" v-for="j in 4" :key="j">
-                    <div v-if="(i - 1) * 4 + j <= items.length">
-                        <el-checkbox v-model="items[(i - 1) * 4 + j - 1].checked"> {{ items[(i - 1) * 4 + j - 1].name }} </el-checkbox>
-                    </div>
-                </el-col>
-            </el-row>
-        </el-footer>
-    </el-container>
+            <h3 style="font-size: 2vh;"> 备选项 </h3>
+            <div>
+                <el-row v-for="i in rows" :key="i">
+                    <el-col :span="6" v-for="j in 4" :key="j">
+                        <div v-if="(i - 1) * 4 + j <= items.length">
+                            <el-checkbox style="font-size: 2vh;" v-model="items[(i - 1) * 4 + j - 1].checked"> {{ items[(i - 1) * 4 + j - 1].name }} </el-checkbox>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </div>
 </template>
-
-<style scoped>
-
-.el-button {
-    font-size: 2vh;
-}
-
-</style>
-
 
 <script>
 export default {

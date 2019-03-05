@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-            <h2> BO盘 </h2>
+            <h2 style="font-size: 3vh"> BO盘 </h2>
         </el-header>
 
         <el-main v-show="!files.length">
@@ -9,10 +9,10 @@
             <h2 v-show="!logined"> 你还没有登录 </h2>
         </el-main>
 
-        <el-main v-show="files.length">
-            <el-table :data="files" style="width: 100%">
-                <el-table-column prop="file_name" label="文件名" width="150"> </el-table-column>
-                <el-table-column prop="link" label="下载链接" width="360">
+        <el-main v-show="files.length" style="margin: 0px auto">
+            <el-table :data="files" style="width: 100%; margin: 0px auto;" height="300">
+                <el-table-column prop="file_name" label="文件名" width="120"> </el-table-column>
+                <el-table-column prop="link" label="下载链接" width="320">
                     <template slot-scope="scope">
                         <a :href="scope.row.link" target="_blank"> {{ scope.row.link }} </a>
                     </template>
@@ -26,9 +26,10 @@
         </el-main>
 
         <el-footer>
-            <el-button v-show="!logined" disabled> 上传新的文件 </el-button>
+            <br>
+            <el-button style="font-size: 2vh" v-show="!logined" disabled> 上传新的文件 </el-button>
             <el-upload v-show="logined" action="none" :before-upload="uploadFile" :show-file-list="false">
-                <el-button> 上传新的文件 </el-button>
+                <el-button style="font-size: 2vh"> 上传新的文件 </el-button>
             </el-upload>
         </el-footer>
     </el-container>

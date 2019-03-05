@@ -1,15 +1,13 @@
 <template>
-    <el-container>
-        <el-header>
-            <h2> 关于本站 </h2>
-        </el-header>
-
-        <el-main style="margin-top:-10px">
-            <h3>
-                这是一个集<del>实用功能</del>和爱于一体的送给欣欣然的女生节礼物的四分之一 <br> <br>
-            </h3>
-            <el-card style="margin-top: -20px">
-                <el-row style="font-size: 40px">
+    <!-- SS/OK -->
+    <div style="height: 100%;">
+        <h2 style="font-size: 3vh"> 关于本站 </h2>
+        <h3 style="font-size: 2vh">
+            这是一个集<del>实用功能</del>和爱于一体的送给欣欣然的女生节礼物的四分之一 <br> <br>
+        </h3>
+        <div style="width: 95%; margin: 0px auto;">
+            <el-card>
+                <el-row style="font-size: 4vh">
                         <el-col :span="12">
                             <i class="el-icon-loading"> </i> Developer 
                         </el-col>
@@ -17,7 +15,7 @@
                             LyricZ
                         </el-col>
                 </el-row>
-                <el-row style="margin-top: 20px; font-size: 40px">
+                <el-row style="font-size: 4vh; margin-top: 2%;">
                         <el-col :span="12">
                             <i class="el-icon-printer"> </i> Frontend
                         </el-col>
@@ -25,7 +23,7 @@
                             Vue/Element
                         </el-col>
                 </el-row>
-                <el-row style="margin-top: 20px; font-size: 40px">
+                <el-row style="font-size: 4vh; margin-top: 2%;">
                         <el-col :span="12">
                             <i class="el-icon-setting"> </i> Backend
                         </el-col>
@@ -33,11 +31,11 @@
                             KOA/Mongo
                         </el-col>
                 </el-row>
-                <el-row style="margin-top: 20px;">    
-                    <el-col :span="12" style="font-size: 40px">
+                <el-row style="margin-top: 2%;">    
+                    <el-col :span="12" style="font-size: 4vh">
                         <i class="el-icon-star-off"> </i> Thanks 
                     </el-col>
-                    <el-col :span="12" style="font-size: 20px">
+                    <el-col :span="12" style="font-size: 2vh">
                         <el-row>
                             <el-col :span="12"> Yuxian Gu </el-col>
                             <el-col :span="12"> GayGay Liu </el-col>
@@ -49,9 +47,9 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-button type="primary" @click="help" style="margin-top: 40px"> 帮助作者充值波式按摩会员卡 </el-button>
-        </el-main>
-    </el-container>
+        </div>
+        <el-button type="primary" @click="help" style="margin-top: 4%; padding-bottom: 3%; font-size: 2vh"> 帮助作者充值波式按摩会员卡 </el-button>
+    </div>
 </template>
 
 <script>
@@ -71,16 +69,4 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.el-button {
-    font-size: 2vh;
-}
-
-.el-footer {
-    position: absolute;
-    width: 100%;
-    bottom: 3vh;
-}
-</style>
 

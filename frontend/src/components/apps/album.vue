@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-            <h2> 相册管理 </h2>
+            <h2 style="font-size: 3vh"> 相册管理 </h2>
         </el-header>
 
         <el-main v-show="!files.length || !logined || !is_us">
@@ -10,10 +10,10 @@
             <h2 v-show="!logined"> 你还没有登录 </h2>
         </el-main>
 
-        <el-main v-show="files.length && is_us">
-            <el-table :data="files" style="width: 100%">
-                <el-table-column prop="file_name" label="照片" width="520"> </el-table-column>
-                <el-table-column prop="file_name" label="" width="100">
+        <el-main v-show="files.length && is_us" style="margin: 0px auto">
+            <el-table :data="files" style="width: 100%; margin: 0px auto;" height="300">
+                <el-table-column prop="file_name" label="照片" width="320"> </el-table-column>
+                <el-table-column prop="file_name" label="" width="120">
                     <template slot-scope="scope">
                         <el-button type="danger" size="mini" @click="removeFile(scope.row.file_name)"> 删除 </el-button>
                     </template>
@@ -22,9 +22,10 @@
         </el-main>
 
         <el-footer>
-            <el-button v-show="!logined || !is_us" disabled> 上传新的照片 </el-button>
+            <br>
+            <el-button style="font-size: 2vh" v-show="!logined || !is_us" disabled> 上传新的照片 </el-button>
             <el-upload v-show="logined && is_us" action="none" :before-upload="uploadFile" :show-file-list="false">
-                <el-button> 上传新的照片 </el-button>
+                <el-button style="font-size: 2vh"> 上传新的照片 </el-button>
             </el-upload>
         </el-footer>
     </el-container>

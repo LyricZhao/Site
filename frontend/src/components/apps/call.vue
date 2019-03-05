@@ -1,23 +1,17 @@
 <template>
-    <el-container>
-        <el-header>
-            <h2> 一键叫猪 </h2>
-        </el-header>
-        <el-main>
-            <img src="/images/ui/peppa.png" width="60%">
-        </el-main>
-        <el-footer>
-            <el-row style="margin-top: 20px">
-                <el-col :span="18">
-                    <el-input placeholder="我想对猪说" v-model="message"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button @click="help" v-show="logined && is_dxr" size="small"> 点击叫猪 </el-button>
-                    <el-button v-show="!logined || !is_dxr" size="small" disabled> 无权叫猪 </el-button>
-                </el-col>
-            </el-row>
-        </el-footer>
-    </el-container>
+    <!-- SS/OK -->
+    <div style="height: 100%;">
+        <h2 style="font-size: 3vh"> 一键叫猪 </h2>
+        <img src="/images/ui/peppa.png" height="65%">
+        <el-row style="width: 80%; margin: 0px auto; margin-top: 3%">
+            <el-input v-show="!logined || !is_dxr" style="height: 100%" placeholder="我想对猪说" v-model="message">
+                <el-button slot="append" disabled>无权叫猪</el-button>
+            </el-input>
+            <el-input v-show="logined && is_dxr" style="height: 100%" placeholder="我想对猪说" v-model="message">
+                <el-button slot="append" disabled>无权叫猪</el-button>
+            </el-input>
+        </el-row>
+    </div>
 </template>
 
 <script>
@@ -61,16 +55,4 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.el-button {
-    font-size: 2vh;
-}
-
-.el-footer {
-    position: absolute;
-    width: 100%;
-    bottom: 3vh;
-}
-</style>
 

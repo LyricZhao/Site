@@ -14,6 +14,7 @@
     -moz-box-shadow: 5px 5px 5px #333333;
     -webkit-box-shadow: 5px 5px 5px #333333;
     box-shadow: 5px 5px 5px #333333;
+    border-radius: 1vh;
 }
 
 .el-carousel__item.is-active {
