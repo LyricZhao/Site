@@ -1,0 +1,1 @@
+rsync -ravzP ./* --exclude=backend/.git --exclude=backend/package-lock.json --exclude=frontend/package-lock.json --exclude=frontend/.git --exclude=backend/node_modules --exclude=frontend/node_modules aliyun:~/
